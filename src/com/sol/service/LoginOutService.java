@@ -2,15 +2,17 @@ package com.sol.service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import com.sol.dao.MemberDao;
+public class LoginOutService implements IBoardService {
 
-public class LoginFormService implements IBoardService {
-	
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		return "/WEB-INF/views/board/login_page.jsp";
+		HttpSession session = request.getSession();
+		session.invalidate();
+		
+		return "redirect:main.sol";
 	}
 
 }

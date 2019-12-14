@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context>
 	<!-- p.419 Connection Pool -->
-    <Resource
-    	auth="Container"
-    	type="javax.sql.DataSource"
-    	name="jdbc/oraclexe"
-    	driverClassName="oracle.jdbc.driver.OracleDriver"
-    	username="MODEL2"
-    	password="1234"
-    	url="jdbc:oracle:thin:@localhost:1521:xe"
-    	maxTotal="50"
-    	maxIdle="50"
-    	maxWait="5000"
-    />
+    <Resource name="jdbc/basicjsp"
+            auth="Container"
+            type="javax.sql.DataSource"
+            driverClassName="oracle.jdbc.driver.OracleDriver"
+            username="BOOKSHOP"
+            password="1234"
+            url="jdbc:oracle:thin:@localhost:1521:orcl"
+            maxWait="5000"       
+  />
 </Context>

@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 
-    <title>베스트 셀러</title>
+    <title>작가 페이지</title>
 <style>
 .titleFont {
   font-weight: bold;

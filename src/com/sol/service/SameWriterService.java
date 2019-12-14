@@ -8,17 +8,19 @@ import javax.servlet.http.HttpServletResponse;
 import com.sol.dao.BookDao;
 import com.sol.vo.BookVo;
 
-public class BoardBestSellerService implements IBoardService {
+public class SameWriterService implements IBoardService {
 	
 	BookDao dao = BookDao.getInstance();
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		List<BookVo> list = dao.getBestSellerList();
+		String book_writer = request.getParameter("book_writer");
+		
+		List<BookVo> list = dao.sameWriter(book_writer);
 		request.setAttribute("list", list);
 		
-		return "/WEB-INF/views/board/best_seller.jsp";
+		return "/WEB-INF/views/board/writer_book.jsp";
 	}
 
 }

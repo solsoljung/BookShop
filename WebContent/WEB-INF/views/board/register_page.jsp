@@ -44,7 +44,53 @@
     <!-- Latest compiled and minified CSS -->
 
 <script>
-
+var msg = "${param.msg}";
+if(msg == "register_fail"){
+	alert("회원가입에 실패하였습니다.");
+}
+$(function(){
+	var isChecked = false;
+	$("#btnCheckId").click(function(){
+		var mem_id = $("input[name=mem_id]").val();
+		var url = "checkId.ajax";
+		var sData = {
+				"mem_id" : mem_id
+		};
+		/* var divEl = $("input[name=mem_id]");
+		 
+		var divHalfWidth = divEl.width() / 2;
+		var divHalfHeight = divEl.height() / 2;
+		 
+		var divCenterX = divX + divHalfWidth;
+		var divCenterY = divY + divHalfHeight;
+		console.log(divCenterX);
+		console.log(divCenterY); */
+		
+		$.get(url, sData, function(receiveData){
+			var rData = receiveData.trim();
+			if(rData == "available_id"){
+				$("#idResultSpan").text("사용가능한 아이디 입니다.");
+				isChecked = true;
+			} else if(rData == "used_id") {
+				$("#idResultSpan").text("이미 사용중인 아이디 입니다.");
+			}
+		});
+	});
+	
+	$("#register_form").submit(function() {
+		var mem_pw = $("input[name=mem_pw]").val();
+		var mem_pw2 = $("input[name=mem_pw2]").val();
+		if (mem_pw != mem_pw2) {
+			alert("패스워드가 일치하지 않습니다");
+			return false;
+		}
+		
+		if (isChecked == false) {
+			alert("아이디 중복 체크를 해주세요.");
+			return false;
+		}
+	});
+});
 </script>
 </head>
 <body>
@@ -57,29 +103,29 @@
       <div class="row">
         <div class="col-md-2">
         </div>
-        <div class="col-md-8">
+        <div class="col-md-5">
         <span class="login100-form-title p-b-34">
 						회원가입
 					</span>
           <div class="login-box well">
-        <form method="post" action="">
+        <form method="post" id="register_form" action="register_pro.sol">
             <div class="form-group">
-                <input type="text" placeholder="아이디*" class="form-control" required/>
+                <input type="text" name="mem_id" placeholder="아이디*" class="form-control" required/>
             </div>
             <div class="form-group">
-                <input type="text" placeholder="비밀번호*" class="form-control" required/>
+                <input type="password" name="mem_pw" placeholder="비밀번호*" class="form-control" required/>
             </div>
             <div class="form-group">
-                <input type="text" placeholder="비밀번호 확인*" class="form-control" required/>
+                <input type="password" name="mem_pw2" placeholder="비밀번호 확인*" class="form-control" required/>
             </div>
             <div class="form-group">
-                <input type="text" placeholder="이름*" class="form-control" required/>
+                <input type="text" name="mem_name" placeholder="이름*" class="form-control" required/>
             </div>
             <div class="form-group">
-                <input type="text" placeholder="전화번호" class="form-control" />
+                <input type="text" name="mem_phone" placeholder="전화번호" class="form-control" />
             </div>
             <div class="form-group">
-                <input type="text" placeholder="주소" class="form-control" />
+                <input type="text" name="mem_address" placeholder="주소" class="form-control" />
             </div>
             <hr />
             <div class="form-group">
@@ -88,10 +134,17 @@
         </form>
           </div>
         </div>
+        <div class="col-md-3">
+        <br>
+        <br>
+            <input type="button" id="btnCheckId" value="아이디 중복 확인" style="background-color:#DCDCDC"/>
+       		<br>
+       		<span id="idResultSpan"></span>
+        </div>
+        </div>
         <div class="col-md-2">
         </div>
       </div>
-    </div>
  
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>

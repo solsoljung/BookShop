@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,8 +9,8 @@
 <style>
 .titleFont {
   font-weight: bold;
-  color: 	#6495ED;
-  font-size: 64px;
+  color: 	#ff6933;
+  font-size: 100px;
 
 }
 </style>
@@ -28,6 +29,15 @@ $(document).ready(function(){
 	});
 	$("#btnLogin").click(function(){
 		location.href = "login.sol";
+	});
+	$("#notLoginMyPage").click(function(){
+		location.href = "login.sol";
+	});
+	$("#notLoginCart").click(function(){
+		location.href = "login.sol";
+	});
+	$("#btnLogout").click(function(){
+		location.href = "logout.sol";
 	});
 	$("#btnCart").click(function(){
 		location.href = "cart.sol";
@@ -50,7 +60,7 @@ $(document).ready(function(){
 					<a class="nav-link active" href="best.sol">베스트 셀러</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="content.sol">국내도서</a>
+					<a class="nav-link">국내도서</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="#">외국도서</a>
@@ -63,13 +73,14 @@ $(document).ready(function(){
 				</li>
 			</ul>
 			<hr>
-			<span class="titleFont">솔 책방</span>
+			<span class="titleFont" style="font-family:'배달의민족 주아'">솔 책방</span>
 		</div>
 		<div class="col-md-4">
 			<div class="btn-group" role="group">
-				 
-				<button class="btn btn-secondary" type="button" id="btnLogin">
-					로그인
+				 <c:choose>
+				 	<c:when test="${not empty mem_id}">
+					<button class="btn btn-secondary" type="button" id="btnLogout">
+					로그아웃
 				</button> 
 				<button class="btn btn-secondary" type="button" id="btnRegister">
 					회원가입
@@ -80,6 +91,22 @@ $(document).ready(function(){
 				<button class="btn btn-secondary" type="button" id="btnCart">
 					장바구니
 				</button>
+					</c:when>
+					<c:otherwise>
+				<button class="btn btn-secondary" type="button" id="btnLogin">
+					로그인
+				</button> 
+				<button class="btn btn-secondary" type="button" id="btnRegister">
+					회원가입
+				</button> 
+				<button class="btn btn-secondary" type="button" id="notLoginMyPage">
+					마이 페이지
+				</button> 
+				<button class="btn btn-secondary" type="button" id="notLoginCart">
+					장바구니
+				</button>
+					</c:otherwise>
+				</c:choose>
 			</div>
 		</div>
 	</div>

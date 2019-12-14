@@ -23,7 +23,10 @@
     <!-- Latest compiled and minified CSS -->
 
 <script>
-
+var msg = "${param.msg}";
+if(msg == "login_fail"){
+	alert("로그인 실패");
+}
 
 </script>
 

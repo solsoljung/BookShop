@@ -24,7 +24,12 @@
 
 
 <script>
-
+$(function(){
+	$("#btnPutCart").click(function(){
+		var howmany = $("#dropdownVal").val();
+		console.log(howmany);
+	});
+});
 
 </script>
 
@@ -39,32 +44,39 @@
 		<div class="col-md-2">
 		</div>
 		<div class="col-md-4">
-			<img alt="Bootstrap Image Preview" src="images/book_content_image1.jpg" width="500"/>
+			<img src="images/${vo.book_image}" width="500"/>
 		</div>
 		<div class="col-md-4">
-			<h1>우리가 간신히 희망할 수 있는 것</h1>
+			<h1>${vo.book_name}</h1>
 			<br>
-			<h1>김영민</h1>
+			<h1>${vo.book_writer}</h1>
 			<br>
-			<h1>14000원</h1>
+			<h1>${vo.book_price}원</h1>
 			<br>
 			<h1>☆☆☆☆☆</h1>
 			<br>
 			<!-- 드롭다운 시작 -->
-			<div class="dropdown">
+			<!-- <div class="dropdown">
 				 
 				<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown">
 					수량 선택
 				</button>
-				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-					 <a class="dropdown-item disabled" href="#">1개</a> 
-					 <a class="dropdown-item" href="#">2개</a> 
-					 <a class="dropdown-item" href="#">3개</a>
+				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="dropdownVal">
+					 <a class="dropdown-item disabled" href="#">1</a> 
+					 <a class="dropdown-item" href="#">2</a> 
+					 <a class="dropdown-item" href="#">3</a>
 				</div>
+			</div> -->
+			<div>
+			<select class="selectpicker" title="수량선택" data-style="btn-primary" style="width:60px;height:40px;font-size:20px;"> 
+						<option>1</option> 
+						<option>2</option> 
+						<option>3</option> 
+						</select>
 			</div>
 			<!-- 드롭다운 끝 -->
 			<br>
-			<a href="#" class="btn btn-lg active btn-link" type="button">장바구니</a> 
+			<a href="#" id="btnPutCart" class="btn btn-lg active btn-link" type="button">장바구니</a> 
 			<a href="#" class="btn btn-lg btn-link" type="button">바로 구매</a>
 		</div>
 		<div class="col-md-2">
@@ -84,7 +96,7 @@
 				이 작가의 다른 책도 만나보세요!
 			</h5>
 			<p>
-				<a class="btn" href="#">바로 만나보기 »</a>
+				<a class="btn" href="same_writer.sol?book_writer=${vo.book_writer}">바로 만나보기 »</a>
 			</p>
 		</div>
 		<div class="col-md-4">
@@ -106,18 +118,28 @@
 	<br>
 	<br>
 	<div class="row">
-		<div class="col-md-1">
+		<div class="col-md-3">
 		</div>
-		<div class="col-md-10">
-			<h1 align="center">'올 겨울 최고의 웅앵웅!'</h1>
-			<h2 align="center">한 겨울에 만나는 따스한 웅앵웅!</h2>
+		<div class="col-md-6">
+			<h1 align="center" style="font-family:fontawesome-webfont">책소개</h1>
+			<br>
+			<br>
+			<br>
+			<h2 align="center" style="font-family:Nanum DongHwaDdoBag">${vo.book_explain}</h2>
+		
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
 		</div>
-		<div class="col-md-1">
+		<div class="col-md-3">
 		</div>
 	</div>
 	
 </div>
-
+	<script src="~/bootstrap-select.min.js"></script>
+	<script src="~/defaults-ko-KR.min.js"></script>
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/scripts.js"></script>

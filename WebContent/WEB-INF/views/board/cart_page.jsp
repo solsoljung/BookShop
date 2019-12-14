@@ -7,12 +7,7 @@
 
     <title>장바구니</title>
 <style>
-.titleFont {
-  font-weight: bold;
-  color: 	#6495ED;
-  font-size: 64px;
 
-}
  #center {
 	line-height: 200px;
       }
@@ -37,9 +32,9 @@
 <br>
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-md-2">
+		<div class="col-md-1">
 		</div>
-		<div class="col-md-8">
+		<div class="col-md-10">
 			<table class="table">
 				<thead>
 					<tr style="font-size:10pt">
@@ -56,15 +51,11 @@
 						<td style="font-size:15pt">14900원</td>
 						<!-- 셀렉박스 -->
 						<td>
-						<div class="dropdown">
-				 
-						<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown">
-							수량
-						</button>
-						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-							 <a class="dropdown-item disabled" href="#">1개</a> <a class="dropdown-item" href="#">2개</a> <a class="dropdown-item" href="#">3개</a>
-						</div>
-						</div>
+						<select class="selectpicker" style="width:60px;height:40px;font-size:20px;"> 
+						<option>1</option> 
+						<option>2</option> 
+						<option>3</option> 
+						</select>
 						</td>
 						<!-- 셀렉박스 끝 -->
 						<!-- 체크박스 -->
@@ -103,7 +94,7 @@
 				</tbody>
 			</table>
 		</div>
-		<div class="col-md-2">
+		<div class="col-md-1">
 		</div>
 	</div>
 	<br>
@@ -132,7 +123,8 @@
 	</div>
 </div>
 </div>
-
+	<script src="~/bootstrap-select.min.js"></script>
+	<script src="~/defaults-ko-KR.min.js"></script>
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/scripts.js"></script>
