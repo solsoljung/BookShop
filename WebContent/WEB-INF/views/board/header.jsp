@@ -37,10 +37,10 @@ $(document).ready(function(){
 		location.href = "login.sol";
 	});
 	$("#btnLogout").click(function(){
-		location.href = "logout.sol";
+		location.href = "logout.mem";
 	});
 	$("#btnCart").click(function(){
-		location.href = "cart.sol";
+		location.href = "cart_form.mem";
 	});
 	$("#btnRegister").click(function(){
 		location.href = "register.sol";

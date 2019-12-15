@@ -26,8 +26,8 @@
 <script>
 $(function(){
 	$("#btnPutCart").click(function(){
-		var howmany = $("#dropdownVal").val();
-		console.log(howmany);
+		var book_amount = $("#inputAmount").val();
+		location.href = "cart.mem?book_num=${vo.book_num}&book_amount=" + book_amount;
 	});
 });
 
@@ -55,28 +55,11 @@ $(function(){
 			<br>
 			<h1>☆☆☆☆☆</h1>
 			<br>
-			<!-- 드롭다운 시작 -->
-			<!-- <div class="dropdown">
-				 
-				<button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown">
-					수량 선택
-				</button>
-				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="dropdownVal">
-					 <a class="dropdown-item disabled" href="#">1</a> 
-					 <a class="dropdown-item" href="#">2</a> 
-					 <a class="dropdown-item" href="#">3</a>
-				</div>
-			</div> -->
-			<div>
-			<select class="selectpicker" title="수량선택" data-style="btn-primary" style="width:60px;height:40px;font-size:20px;"> 
-						<option>1</option> 
-						<option>2</option> 
-						<option>3</option> 
-						</select>
-			</div>
-			<!-- 드롭다운 끝 -->
+			수량:&nbsp;&nbsp;
+			<input type="text" id="inputAmount" style="text-align:center;font-size:20px;width:50px;" name="book_amount" value="1"/>&nbsp;개
 			<br>
-			<a href="#" id="btnPutCart" class="btn btn-lg active btn-link" type="button">장바구니</a> 
+			<br>
+			<a id="btnPutCart" class="btn btn-lg active btn-link" type="button">장바구니</a> 
 			<a href="#" class="btn btn-lg btn-link" type="button">바로 구매</a>
 		</div>
 		<div class="col-md-2">

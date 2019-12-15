@@ -47,7 +47,7 @@
 		<img src="images/${bestVo.book_image}" width="300"/>
 		</div>
 		<div class="col-md-5">
-			<h1><a href="content.sol?book_num=${bestVo.book_num}">
+			<h1><a href="content.sol?book_num=${bestVo.book_num}" style="color:#595959;">
 				${bestVo.book_name}
 				</a>
 			</h1>
@@ -56,7 +56,7 @@
 			<h4>${bestVo.book_price}</h4>
 			<h4>★★★★★</h4>
 			<hr>
-			<a href="#" class="btn btn-lg btn-link" type="button">장바구니 담기</a>
+			<a href="cart.mem?book_num=${bestVo.book_num}&book_amount=1" class="btn btn-lg btn-link" type="button">장바구니 담기</a>
 			<a href="#" class="btn btn-lg btn-link" type="button">바로 구매</a>
 		</div>
 		<div class="col-md-2">
