@@ -27,6 +27,9 @@ $(document).ready(function(){
 	$("#imgGoMain").click(function(){
 		location.href = "main.sol";
 	});
+	$("#btnMainLogo").click(function(){
+		location.href = "main.sol";
+	});
 	$("#btnLogin").click(function(){
 		location.href = "login.sol";
 	});
@@ -73,7 +76,7 @@ $(document).ready(function(){
 				</li>
 			</ul>
 			<hr>
-			<span class="titleFont" style="font-family:'배달의민족 주아'">솔 책방</span>
+			<span class="titleFont" style="font-family:'배달의민족 주아'" id="btnMainLogo">솔 책방</span>
 		</div>
 		<div class="col-md-4">
 			<div class="btn-group" role="group">

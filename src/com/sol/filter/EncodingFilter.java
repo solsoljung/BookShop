@@ -1,4 +1,4 @@
-package net.kh.filter;
+package com.sol.filter;
 
 import java.io.IOException;
 import javax.servlet.Filter;

@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 
-    <title>장바구니</title>
+    <title>상품 구매</title>
 <style>
 
  #center {
@@ -24,14 +24,12 @@
 <script>
 $(function(){
 
-	$("input[type=checkbox]").prop("checked", true);
-	
 	$(".btnCartDelete").click(function(){
 // 		console.log($(this));
 		var that = $(this);
 		var v = that.data("num");
 		console.log(v);	
-		var url = "cart_delete.ajax";
+		var url = "buyList_delete.ajax";
 		
 		var sData = {
 				"book_num" : v
@@ -44,8 +42,17 @@ $(function(){
 	});
 	
 	$("#btnBuy").click(function(e){
-		location.href = "buy_pro.mem";
+		e.preventDefault();
+		var amount = 0;
+		$(".oneAmount").each(function(){
+			amount = $(this).text();
+		});
+		$(".onePrice").each(function(){
+			price = $(this).text();
+		});
+		console.log(amount);
 	});
+	
 });
 
 </script>
@@ -55,7 +62,7 @@ $(function(){
 <br>
 <br>
 <br>
-<h1 align="center">장바구니</h1>
+<h1 align="center">상품 결제</h1>
 <br>
 <br>
 <br>
@@ -74,20 +81,15 @@ $(function(){
 					</tr>
 				</thead>
 				<tbody>
-				<c:forEach items="${list}" var="cartVo">
+				<c:forEach items="${list}" var="vo">
 					<tr class="targetTr">
-						<td colspan="2"><img src="images/${cartVo.book_image}" width="150"/>
-						<span style ="font-size:20pt">${cartVo.book_name}</span></td>
-						<td style="font-size:15pt">${cartVo.book_price}원</td>
-						<td>
-						<input type="text" style="text-align:center; width:50px;" name="book_amount" value="${cartVo.book_amount}"/>
-						</td>
+						<td colspan="2"><img src="images/${vo.book_image}" width="50"/>
+						<span style ="font-size:20pt">${vo.book_name}</span></td>
+						<td style="font-size:15pt" class="onePrice">${vo.book_price}</td>
+						<td style="font-size:15pt" class="oneAmount">${vo.book_amount}</td>
 						<!-- 체크박스 -->
 						<td>
-						<div class="checkbox">
-						  <label><input type="checkbox" value="check1"/></label>
-						</div>
-						  <input type="button" class="btnCartDelete" data-num="${cartVo.book_num}" style="font-weight:bold;font-size:13px;" value="X"/>
+						  <input type="button" class="btnCartDelete" data-num="${vo.book_num}" style="font-weight:bold;font-size:13px;" value="X"/>
 						</td>
 						<!-- 체크박스 끝-->
 					</tr>
@@ -105,10 +107,15 @@ $(function(){
 	<div class="row">
 		<div class="col-md-2">
 		</div>
-		<div class="col-md-8" align="center">
+		<div class="col-md-4">
+			<h1 align="center">
+				총 상품 가격  :  51000원
+			</h1> 
+		</div>
+		<div class="col-md-4">
 			<!-- <button type="button" class="btn btn-success btn-lg btn-block"> -->
 			<button type="button" class="btn btn-primary btn-lg" id="btnBuy">
-				선택한 상품 주문하기
+				결제하기
 			</button>
 			<button type="button" class="btn btn-success btn-lg">
 				계속 쇼핑하기

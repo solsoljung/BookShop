@@ -1,4 +1,4 @@
-package net.kh.util;
+package com.sol.util;
 
 import java.io.File;
 

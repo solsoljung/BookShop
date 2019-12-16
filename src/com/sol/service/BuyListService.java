@@ -6,23 +6,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.sol.dao.CartDao;
-import com.sol.vo.CartVo;
+import com.sol.dao.BuyDao;
+import com.sol.vo.BuyVo;
 
-public class CartFormService implements IBoardService {
+public class BuyListService implements IBoardService {
 	
-	CartDao dao = CartDao.getInstance();
+	BuyDao dao = BuyDao.getInstance();
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
 		HttpSession session = request.getSession();
 		String mem_id = (String)session.getAttribute("mem_id");
-
-		List<CartVo> list = dao.getMyCartList(mem_id);
-		System.out.println("CartFormService, list: " + list);
+		
+		List<BuyVo> list = dao.getBuyList(mem_id);
+		
 		request.setAttribute("list", list);
 		
-		return "/WEB-INF/views/board/cart_page.jsp";
+		return "/WEB-INF/views/board/buy_list.jsp";
 	}
 
 }
