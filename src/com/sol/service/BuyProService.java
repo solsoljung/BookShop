@@ -24,11 +24,13 @@ public class BuyProService implements IBoardService {
 		
 		List<CartVo> list = cartDao.getMyCartList(mem_id);
 		List<BuyVo> newList = new ArrayList<BuyVo>();
+		int allPrice = 0;
 		
 		for(CartVo vo : list) {
 			int book_num = vo.getBook_num();
 			int book_amount = vo.getBook_amount();
-			
+			int book_price = vo.getBook_price();
+			allPrice += book_price * book_amount;
 			BuyVo newVo = new BuyVo();
 			newVo.setBook_num(book_num);
 			newVo.setBook_amount(book_amount);
@@ -36,9 +38,9 @@ public class BuyProService implements IBoardService {
 			//여기서 총액을 넘겨줘야 합니다.
 			newList.add(newVo);
 		}
-		System.out.println("여기까지는 실행됨!!!!!!!");
 		
 		buyDao.addBuyList(newList, mem_id);
+		session.setAttribute("allPrice", allPrice);
 		
 		return "redirect:buy_list.mem";
 	}

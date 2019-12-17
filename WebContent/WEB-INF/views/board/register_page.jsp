@@ -28,13 +28,6 @@
 	<link rel="stylesheet" type="text/css" href="css/util.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 <!--===============================================================================================-->
-<style>
-.titleFont {
-  font-weight: bold;
-  color: 	#6495ED;
-  font-size: 64px;
-}
-</style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <meta name="description" content="Source code generated using layoutit.com">
     <meta name="author" content="LayoutIt!">

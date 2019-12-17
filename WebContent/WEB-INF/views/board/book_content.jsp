@@ -108,7 +108,8 @@ $(function(){
 			<br>
 			<br>
 			<br>
-			<h2 align="center" style="font-family:Nanum DongHwaDdoBag">${vo.book_explain}</h2>
+			<!-- 집에서는 이것을 넣으시오  style="font-family:Nanum DongHwaDdoBag" -->
+			<h2 align="center">${vo.book_explain}</h2>
 		
 		<br>
 		<br>

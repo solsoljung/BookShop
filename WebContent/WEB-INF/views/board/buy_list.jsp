@@ -23,34 +23,13 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/paper/bootstrap.min.css" rel="stylesheet"/>
 <script>
 $(function(){
-
-	$(".btnCartDelete").click(function(){
-// 		console.log($(this));
-		var that = $(this);
-		var v = that.data("num");
-		console.log(v);	
-		var url = "buyList_delete.ajax";
-		
-		var sData = {
-				"book_num" : v
-		};
-		$.post(url, sData, function(rData){
-			if (rData.trim() == "delete_success") {
-				that.parent().parent().remove();
-			}
-		});
+	$("#btnCartAgain").click(function(){
+		location.href = "cart_form.mem";
 	});
 	
 	$("#btnBuy").click(function(e){
 		e.preventDefault();
-		var amount = 0;
-		$(".oneAmount").each(function(){
-			amount = $(this).text();
-		});
-		$(".onePrice").each(function(){
-			price = $(this).text();
-		});
-		console.log(amount);
+		
 	});
 	
 });
@@ -77,7 +56,6 @@ $(function(){
 						<th colspan="2">상품명</th>
 						<th>가격</th>
 						<th>수량</th>
-						<th>삭제</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -87,11 +65,6 @@ $(function(){
 						<span style ="font-size:20pt">${vo.book_name}</span></td>
 						<td style="font-size:15pt" class="onePrice">${vo.book_price}</td>
 						<td style="font-size:15pt" class="oneAmount">${vo.book_amount}</td>
-						<!-- 체크박스 -->
-						<td>
-						  <input type="button" class="btnCartDelete" data-num="${vo.book_num}" style="font-weight:bold;font-size:13px;" value="X"/>
-						</td>
-						<!-- 체크박스 끝-->
 					</tr>
 					</c:forEach>
 				</tbody>
@@ -109,7 +82,7 @@ $(function(){
 		</div>
 		<div class="col-md-4">
 			<h1 align="center">
-				총 상품 가격  :  51000원
+				총 상품 가격  :  <span>${allPrice}</span>원
 			</h1> 
 		</div>
 		<div class="col-md-4">
@@ -117,8 +90,8 @@ $(function(){
 			<button type="button" class="btn btn-primary btn-lg" id="btnBuy">
 				결제하기
 			</button>
-			<button type="button" class="btn btn-success btn-lg">
-				계속 쇼핑하기
+			<button type="button" class="btn btn-success btn-lg" id="btnCartAgain">
+				장바구니로
 			</button>
 			<br>
 			<br>
@@ -126,8 +99,32 @@ $(function(){
 		</div>
 		<div class="col-md-2">
 		</div>
-	</div>
 </div>
+</div>
+<div class="row">
+	<div class="col-md-2">
+	</div>
+		<div class="col-md-8">
+			<form role="form">
+				<div class="form-group">
+					 
+					<label for="exampleInputEmail1">
+						Email address
+					</label>
+					<input type="email" class="form-control" id="exampleInputEmail1" />
+				</div>
+				<div class="form-group">
+					 
+					<label for="exampleInputPassword1">
+						Password
+					</label>
+					<input type="password" class="form-control" id="exampleInputPassword1" />
+				</div>
+			</form>
+		</div>
+		<div class="col-md-2">
+	</div>
+	</div>
 </div>
 	<script src="~/bootstrap-select.min.js"></script>
 	<script src="~/defaults-ko-KR.min.js"></script>
