@@ -1,35 +1,32 @@
 package com.sol.service;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.sol.dao.BuyDao;
 import com.sol.dao.MemberDao;
-import com.sol.vo.BuyVo;
 import com.sol.vo.MemberVo;
 
-public class BuyListService implements IBoardService {
+public class PaymentService implements IBoardService {
 	
-	BuyDao dao = BuyDao.getInstance();
-	MemberDao memberDao = MemberDao.getInstance();
+	MemberDao dao = MemberDao.getInstance();
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
+
 		HttpSession session = request.getSession();
 		String mem_id = (String)session.getAttribute("mem_id");
+		String mem_phone = request.getParameter("mem_phone");
+		String mem_address = request.getParameter("mem_address");
 		
-		List<BuyVo> list = dao.getBuyList(mem_id);
+		MemberVo vo = new MemberVo();
+		vo.setMem_id(mem_id);
+		vo.setMem_phone(mem_phone);
+		vo.setMem_address(mem_address);
 		
-		MemberVo memberVo = memberDao.getMemberInfo(mem_id);
+		boolean memberInfoUpdateresult = dao.updateMemberInfo(vo);
 		
-		request.setAttribute("list", list);
-		request.setAttribute("memberVo", memberVo);
-		
-		return "/WEB-INF/views/board/buy_list.jsp";
+		return "/WEB-INF/views/board/payment_result.jsp";
 	}
 
 }

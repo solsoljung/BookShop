@@ -28,8 +28,14 @@ $(function(){
 	});
 	
 	$("#btnBuy").click(function(e){
-		e.preventDefault();
-		
+		var phone = $("#mem_phone").val();
+		var address = $("#mem_address").val();
+		if(phone == "" || address == ""){
+			alert("결제창에 정보를 입력해주세요.");
+		} 
+		/* else{
+			location.href = "payment.mem";
+		} */
 	});
 	
 });
@@ -87,9 +93,9 @@ $(function(){
 		</div>
 		<div class="col-md-4">
 			<!-- <button type="button" class="btn btn-success btn-lg btn-block"> -->
-			<button type="button" class="btn btn-primary btn-lg" id="btnBuy">
+			<!-- <button type="button" class="btn btn-primary btn-lg" id="btnBuy">
 				결제하기
-			</button>
+			</button> -->
 			<button type="button" class="btn btn-success btn-lg" id="btnCartAgain">
 				장바구니로
 			</button>
@@ -102,27 +108,35 @@ $(function(){
 </div>
 </div>
 <div class="row">
-	<div class="col-md-2">
+	<div class="col-md-4">
 	</div>
-		<div class="col-md-8">
-			<form role="form">
+		<div class="col-md-4">
+		<br>
+		<br>
+		<br>
+		<br>
+		<h1 align="center">결제 정보</h1>
+		<br>
+		<br>
+			<form role="form" style="font-size:20pt" action="payment.mem">
 				<div class="form-group">
 					 
 					<label for="exampleInputEmail1">
-						Email address
+						휴대폰 번호
 					</label>
-					<input type="email" class="form-control" id="exampleInputEmail1" />
+					<input type="text" class="form-control" name="mem_phone" id="mem_phone" value="${memberVo.mem_phone}"/>
 				</div>
 				<div class="form-group">
 					 
 					<label for="exampleInputPassword1">
-						Password
+						주소
 					</label>
-					<input type="password" class="form-control" id="exampleInputPassword1" />
+					<input type="text" class="form-control" name="mem_address" id="mem_address" value="${memberVo.mem_address}"/>
 				</div>
+				<input type="submit" value="결제하기" id="btnBuy">
 			</form>
 		</div>
-		<div class="col-md-2">
+		<div class="col-md-4">
 	</div>
 	</div>
 </div>

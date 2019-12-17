@@ -155,4 +155,28 @@ public class CartDao {
 		}
 		return false;
 	}
+	
+	public boolean changeBookAmount(CartVo vo) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			conn = getConnection();
+			String sql = "update tbl_cart set book_amount = ? where book_num = ? and mem_id = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, vo.getBook_amount());
+			pstmt.setInt(2, vo.getBook_num());
+			pstmt.setString(3, vo.getMem_id());
+			int result = pstmt.executeUpdate();
+			if(result > 0) {
+				return true;
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeAll(conn, pstmt, null);
+		}
+		return false;
+	}
+	
 }

@@ -28,8 +28,7 @@ $(function(){
 	
 	$(".btnCartDelete").click(function(){
 // 		console.log($(this));
-		var that = $(this);
-		var v = that.data("num");
+		var v = $(this).data("num");
 		console.log(v);	
 		var url = "cart_delete.ajax";
 		
@@ -46,6 +45,48 @@ $(function(){
 	$("#btnBuy").click(function(e){
 		location.href = "buy_pro.mem";
 	});
+	
+	$(".plus").click(function(){
+		var num = $(this).prev().val();
+		var plusNum = parseInt(num) + 1;
+				   
+		if(plusNum >= 20) {
+			$(this).prev().val(num);
+		} else {
+			$(this).prev().val(plusNum);          
+		}
+
+		var url = "change_book_num.ajax";
+		var v = $(this).prev().data("num");
+		var sData = {
+				"book_num" : v,
+				"book_amount" : plusNum
+		};
+		$.post(url, sData, function(rData){
+			console.log(rData);
+		});
+		  });
+	$(".minus").click(function(){
+		var num = $(this).next().val();
+		var minusNum = parseInt(num) - 1;
+				   
+		if(minusNum < 0) {
+			$(this).next().val(num);
+		} else {
+			$(this).next().val(minusNum);   
+		}
+		
+		var url = "change_book_num.ajax";
+		var v = $(this).next().data("num");
+		var sData = {
+				"book_num" : v,
+				"book_amount" : minusNum
+		};
+		$.post(url, sData, function(rData){
+			console.log(rData);
+		});
+		  });
+
 });
 
 </script>
@@ -80,7 +121,13 @@ $(function(){
 						<span style ="font-size:20pt">${cartVo.book_name}</span></td>
 						<td style="font-size:15pt">${cartVo.book_price}원</td>
 						<td>
-						<input type="text" style="text-align:center; width:50px;" name="book_amount" value="${cartVo.book_amount}"/>
+						<%-- <input type="text" style="text-align:center; width:50px;" name="book_amount" value="${cartVo.book_amount}"/> --%>
+						<p class="cartStock">
+						 	<span>구입 수량</span>
+ 						<button type="button" class="minus">-</button>
+ 							<input type="number" data-num="${cartVo.book_num}" class="numBox" min="1" max="20" value="${cartVo.book_amount}" readonly="readonly"/>
+						 <button type="button" class="plus">+</button>
+ 						</p>
 						</td>
 						<!-- 체크박스 -->
 						<td>
@@ -122,6 +169,7 @@ $(function(){
 	</div>
 </div>
 </div>
+	<script src="/resources/jquery/jquery-3.3.1.min.js"></script>
 	<script src="~/bootstrap-select.min.js"></script>
 	<script src="~/defaults-ko-KR.min.js"></script>
     <script src="js/jquery.min.js"></script>

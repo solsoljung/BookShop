@@ -44,37 +44,6 @@ public class BuyDao {
 		if (conn != null) try { conn.close(); } catch (Exception e) { }
 	}
 	
-	/*public void deleteAllBuyList(String mem_id) {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		PreparedStatement pstmt2 = null;
-		ResultSet rs = null;
-		
-		try {
-			conn = getConnection();
-			
-			String sql2 = "select count(*) cnt from tbl_buy where mem_id = ?";
-			pstmt2 = conn.prepareStatement(sql2);
-			pstmt2.setString(1, mem_id);
-			rs = pstmt2.executeQuery();
-			int count = 0;
-			if(rs.next()) {
-				count = rs.getInt("cnt");
-			}
-			if(count > 0) {
-				String sql = "delete tbl_buy where mem_id = ?";
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, mem_id);
-				pstmt.executeUpdate();
-			}
-		} catch(Exception e) {
-			e.printStackTrace();
-		} finally {
-			closeAll(conn, pstmt2, rs);
-			closeAll(conn, pstmt, null);
-		}
-	}*/
-	
 	public void addBuyList(List<BuyVo> list, String mem_id) {
 		Connection conn = null;
 		PreparedStatement pstmt0 = null;
@@ -199,6 +168,25 @@ public class BuyDao {
 			closeAll(conn, pstmt, null);
 		}
 		return false;
+	}
+	
+	public void paymentProcess() {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			conn = getConnection();
+			conn.setAutoCommit(false);
+			
+			String sql = "insert into tbl_point(point_num, mem_id, point_score, point_code) "
+					+ "                  values(seq_point_num.nextval, ?, ?, ?)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, "여기하는중인비다아~~~");
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeAll(conn, pstmt, null);
+		}
 	}
 	
 }

@@ -91,6 +91,63 @@ public class MemberDao {
 		return false;
 	}
 	
+	public MemberVo getMemberInfo(String mem_id) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = getConnection();
+			String sql = "select * from tbl_member where mem_id = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, mem_id);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				String mem_pw = rs.getString("mem_pw");
+				String mem_name = rs.getString("mem_name");
+				String mem_phone = rs.getString("mem_phone");
+				String mem_address = rs.getString("mem_address");
+				
+				MemberVo vo = new MemberVo();
+				
+				vo.setMem_id(mem_id);
+				vo.setMem_pw(mem_pw);
+				vo.setMem_name(mem_name);
+				vo.setMem_phone(mem_phone);
+				vo.setMem_address(mem_address);
+				return vo;
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeAll(conn, pstmt, rs);
+		}
+		return null;
+	}
+	
+	public boolean updateMemberInfo(MemberVo vo) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			conn = getConnection();
+			String sql = "update tbl_member set mem_phone = ?, mem_address = ? where mem_id = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, vo.getMem_phone());
+			pstmt.setString(2, vo.getMem_address());
+			pstmt.setString(3, vo.getMem_id());
+			int result = pstmt.executeUpdate();
+			if(result > 0) {
+				return true;
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeAll(conn, pstmt, null);
+		}
+		return false;
+	}
+	
 	public boolean login(String mem_id, String mem_pw) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
