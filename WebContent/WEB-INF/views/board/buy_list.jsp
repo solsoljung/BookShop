@@ -119,6 +119,7 @@ $(function(){
 		<br>
 		<br>
 			<form role="form" style="font-size:20pt" action="payment.mem">
+				<input type="hidden" name="allPrice" value="${allPrice}">
 				<div class="form-group">
 					 
 					<label for="exampleInputEmail1">

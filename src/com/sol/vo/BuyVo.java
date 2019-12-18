@@ -12,12 +12,15 @@ public class BuyVo {
 	private String book_name;
 	private String book_image;
 	private int book_price;
+	private String mem_phone;
+	private String mem_address;
 	public BuyVo() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
 	public BuyVo(int buy_info_num, Timestamp buy_date, int book_num, int book_amount, String mem_id, String book_name,
-			String book_image, int book_price) {
+			String book_image, int book_price, String mem_phone, String mem_address) {
 		super();
 		this.buy_info_num = buy_info_num;
 		this.buy_date = buy_date;
@@ -27,7 +30,10 @@ public class BuyVo {
 		this.book_name = book_name;
 		this.book_image = book_image;
 		this.book_price = book_price;
+		this.mem_phone = mem_phone;
+		this.mem_address = mem_address;
 	}
+
 	public int getBuy_info_num() {
 		return buy_info_num;
 	}
@@ -76,10 +82,28 @@ public class BuyVo {
 	public void setBook_price(int book_price) {
 		this.book_price = book_price;
 	}
+
+	public String getMem_phone() {
+		return mem_phone;
+	}
+
+	public void setMem_phone(String mem_phone) {
+		this.mem_phone = mem_phone;
+	}
+
+	public String getMem_address() {
+		return mem_address;
+	}
+
+	public void setMem_address(String mem_address) {
+		this.mem_address = mem_address;
+	}
+
 	@Override
 	public String toString() {
 		return "BuyVo [buy_info_num=" + buy_info_num + ", buy_date=" + buy_date + ", book_num=" + book_num
 				+ ", book_amount=" + book_amount + ", mem_id=" + mem_id + ", book_name=" + book_name + ", book_image="
-				+ book_image + ", book_price=" + book_price + "]";
+				+ book_image + ", book_price=" + book_price + ", mem_phone=" + mem_phone + ", mem_address="
+				+ mem_address + "]";
 	}
 }

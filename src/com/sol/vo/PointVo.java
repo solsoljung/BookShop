@@ -2,7 +2,7 @@ package com.sol.vo;
 
 import java.sql.Timestamp;
 
-public class PontVo {
+public class PointVo {
 
 	private int point_num;
 	private String mem_id;
@@ -10,12 +10,12 @@ public class PontVo {
 	private int point_score;
 	private String point_code;
 	private String point_code_explain;
-	public PontVo() {
+	public PointVo() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	
-	public PontVo(int point_num, String mem_id, Timestamp point_date, int point_score, String point_code,
+	public PointVo(int point_num, String mem_id, Timestamp point_date, int point_score, String point_code,
 			String point_code_explain) {
 		super();
 		this.point_num = point_num;

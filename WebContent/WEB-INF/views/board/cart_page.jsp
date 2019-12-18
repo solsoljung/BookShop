@@ -23,11 +23,10 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/paper/bootstrap.min.css" rel="stylesheet"/>
 <script>
 $(function(){
-
-	$("input[type=checkbox]").prop("checked", true);
 	
 	$(".btnCartDelete").click(function(){
 // 		console.log($(this));
+		var that = $(this);
 		var v = $(this).data("num");
 		console.log(v);	
 		var url = "cart_delete.ajax";
@@ -37,13 +36,14 @@ $(function(){
 		};
 		$.post(url, sData, function(rData){
 			if (rData.trim() == "delete_success") {
+				console.log(rData.trim());
 				that.parent().parent().remove();
 			}
 		});
 	});
 	
 	$("#btnBuy").click(function(e){
-		location.href = "buy_pro.mem";
+		location.href = "buy_list.mem";
 	});
 	
 	$(".plus").click(function(){
@@ -108,7 +108,8 @@ $(function(){
 			<table class="table" id="cartTable">
 				<thead>
 					<tr style="font-size:10pt">
-						<th colspan="2">상품명</th>
+						<th>상품이미지</th>
+						<th>상품명</th>
 						<th>가격</th>
 						<th>수량</th>
 						<th>삭제</th>
@@ -117,26 +118,22 @@ $(function(){
 				<tbody>
 				<c:forEach items="${list}" var="cartVo">
 					<tr class="targetTr">
-						<td colspan="2"><img src="images/${cartVo.book_image}" width="150"/>
-						<span style ="font-size:20pt">${cartVo.book_name}</span></td>
+						<td><img src="images/${cartVo.book_image}" width="150"/></td>
+						<td><span style ="font-size:20pt">${cartVo.book_name}</span></td>
 						<td style="font-size:15pt">${cartVo.book_price}원</td>
 						<td>
 						<%-- <input type="text" style="text-align:center; width:50px;" name="book_amount" value="${cartVo.book_amount}"/> --%>
 						<p class="cartStock">
-						 	<span>구입 수량</span>
  						<button type="button" class="minus">-</button>
  							<input type="number" data-num="${cartVo.book_num}" class="numBox" min="1" max="20" value="${cartVo.book_amount}" readonly="readonly"/>
 						 <button type="button" class="plus">+</button>
  						</p>
 						</td>
-						<!-- 체크박스 -->
+						<!-- 삭제 -->
 						<td>
-						<div class="checkbox">
-						  <label><input type="checkbox" value="check1"/></label>
-						</div>
 						  <input type="button" class="btnCartDelete" data-num="${cartVo.book_num}" style="font-weight:bold;font-size:13px;" value="X"/>
 						</td>
-						<!-- 체크박스 끝-->
+						<!-- 삭제 끝-->
 					</tr>
 					</c:forEach>
 				</tbody>

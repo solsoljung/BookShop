@@ -3,6 +3,7 @@ package com.sol.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import com.sol.vo.BookVo;
+import com.sol.vo.BuyVo;
 
 public class BookDao {
 	
@@ -127,6 +129,44 @@ public class BookDao {
 			closeAll(conn, pstmt, rs);
 		}
 		return null;
+	}
+	
+	public void changeBookScore(List<BuyVo> list) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			conn = getConnection();
+			conn.setAutoCommit(false);
+			String sql = "update tbl_book set book_sold_count = book_sold_count + ?, book_stock = book_stock -? where book_num = ?";
+			int index = 0;
+			for(int i=0;i<list.size();i++) {
+				pstmt = conn.prepareStatement(sql);
+				BuyVo vo = list.get(i);
+				pstmt.setInt(++index, vo.getBook_amount());
+				pstmt.setInt(++index, vo.getBook_amount());
+				pstmt.setInt(++index, vo.getBook_num());
+				pstmt.executeUpdate();
+				index = 0;
+			}
+			conn.commit();
+		} catch(Exception e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				conn.setAutoCommit(true);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			closeAll(conn, pstmt, null);
+		}
 	}
 	
 	public List<BookVo> sameWriter(String book_writer) {

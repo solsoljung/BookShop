@@ -7,7 +7,7 @@ public class BoardMainService implements IBoardService {
 
 	@Override
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		// TODO Auto-generated method stub
+		
 		return "/WEB-INF/views/board/main.jsp";
 	}
 

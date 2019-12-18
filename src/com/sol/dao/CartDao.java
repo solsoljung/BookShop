@@ -3,6 +3,7 @@ package com.sol.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import com.sol.vo.BuyVo;
 import com.sol.vo.CartVo;
 
 public class CartDao {
@@ -133,27 +135,46 @@ public class CartDao {
 		return null;
 	}
 	
-	public boolean deleteCart(int book_num, String mem_id) {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		
-		try {
-			conn = getConnection();
-			String sql = "delete tbl_cart where book_num = ? and mem_id = ?";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, book_num);
-			pstmt.setString(2, mem_id);
-			int result = pstmt.executeUpdate();
-			if(result > 0) {
-				System.out.println("삭제 성공! 다오에서 날아온 메세지");
-				return true;
-			}
+	public boolean deleteCart(List<CartVo> list) {
+			Connection conn = null;
+			PreparedStatement pstmt = null;
+			
+			try {
+				conn = getConnection();
+				conn.setAutoCommit(false);
+				String sql = "delete tbl_cart where book_num = ? and mem_id = ?";
+				int index = 0;
+				int result = 0;
+				for(int i=0;i<list.size();i++) {
+					pstmt = conn.prepareStatement(sql);
+					CartVo vo = list.get(i);
+					pstmt.setInt(++index, vo.getBook_num());
+					pstmt.setString(++index, vo.getMem_id());
+					result = pstmt.executeUpdate();
+					index = 0;
+				}
+				if(result > 0) {
+					return true;
+				}
+				conn.commit();
 		} catch(Exception e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			e.printStackTrace();
 		} finally {
+			try {
+				conn.setAutoCommit(true);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			closeAll(conn, pstmt, null);
 		}
-		return false;
+			return false;
 	}
 	
 	public boolean changeBookAmount(CartVo vo) {

@@ -4,14 +4,20 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import com.sol.vo.BuyVo;
+import com.sol.vo.CartVo;
+import com.sol.vo.PointVo;
+import com.sun.javafx.scene.paint.GradientUtils.Point;
 
 public class BuyDao {
 
@@ -44,63 +50,76 @@ public class BuyDao {
 		if (conn != null) try { conn.close(); } catch (Exception e) { }
 	}
 	
-	public void addBuyList(List<BuyVo> list, String mem_id) {
+	public void addPoint(PointVo pointVo) {
 		Connection conn = null;
-		PreparedStatement pstmt0 = null;
-		PreparedStatement pstmt1 = null;
-		PreparedStatement pstmt[] = new PreparedStatement[list.size()+2];
-		ResultSet rs = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			conn = getConnection();
+			String sql = "insert into tbl_point(point_num, mem_id, point_score, point_code) VALUES(seq_point_num.nextval, ?, ?, ?)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pointVo.getMem_id());
+			pstmt.setInt(2, pointVo.getPoint_score());
+			pstmt.setString(3, pointVo.getPoint_code());
+			pstmt.executeUpdate();
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeAll(conn, pstmt, null);
+		}
+	}
+	
+	//바이다오 만들기
+	public void buy(List<BuyVo> buyList, PointVo pointVo, List<CartVo> cartList) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
 		
 		try {
 			conn = getConnection();
 			conn.setAutoCommit(false);
 			
-			String sql3 = "select count(*) cnt from tbl_buy where mem_id = ?";
-			pstmt0 = conn.prepareStatement(sql3);
-			pstmt0.setString(1, mem_id);
-			rs = pstmt0.executeQuery();
-			int count = 0;
-			if(rs.next()) {
-				count = rs.getInt("cnt");
-			}
-			if(count > 0) {
-				String sql2 = "delete tbl_buy where mem_id = ?";
-				pstmt1 = conn.prepareStatement(sql2);
-				pstmt1.setString(1, mem_id);
-				pstmt1.executeUpdate();
-			}
+			//재고바꾸기
+			BookDao.getInstance().changeBookScore(buyList);
 			
-			String sql = "insert into tbl_buy(buy_info_num, book_num, book_amount, mem_id) "
-					+ "                values(seq_buy_num.nextval, ?, ?, ?)";
-			for(int i=2;i<list.size()+2;i++) {
-				pstmt[i] = conn.prepareStatement(sql);
-				BuyVo vo = list.get(i-2);
-				int j = 0;
-				pstmt[i].setInt(++j, vo.getBook_num());
-				pstmt[i].setInt(++j, vo.getBook_amount());
-				pstmt[i].setString(++j, vo.getMem_id());
-				pstmt[i].executeUpdate();
+			//포인트 적립
+			addPoint(pointVo);
+			
+			//장바구니에서 삭제
+			CartDao.getInstance().deleteCart(cartList);
+			
+			//구매테이블 추가
+			String  sql = 	"INSERT ALL ";
+				for(int i=0;i<buyList.size();i++) {
+					sql += "   INTO tbl_buy (buy_info_num, book_num, book_amount, mem_id, mem_phone, mem_address)";
+					sql += "   VALUES (seq_buy_num.nextval, ?, ?, ?, ?, ?)";
+				}
+					sql += "   SELECT * FROM DUAL";
+			int index = 0;
+			pstmt = conn.prepareStatement(sql);
+			for(int i=0;i<buyList.size();i++) {
+				BuyVo vo = buyList.get(i);
+				pstmt.setInt(++index, vo.getBook_num());
+				pstmt.setInt(++index, vo.getBook_amount());
+				pstmt.setString(++index, vo.getMem_id());
+				pstmt.setString(++index, vo.getMem_phone());
+				pstmt.setString(++index, vo.getMem_address());
 			}
+			pstmt.executeUpdate();
 			conn.commit();
 		} catch(Exception e) {
-			e.printStackTrace();
 			try {
 				conn.rollback();
 			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+			e.printStackTrace();
 		} finally {
 			try {
 				conn.setAutoCommit(true);
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			for(int i=0;i<list.size()+2;i++) {
-				closeAll(null, pstmt[i], null);
-			}
-			closeAll(conn, null, rs);
+			closeAll(conn, pstmt, null);
 		}
 	}
 	
@@ -139,6 +158,80 @@ public class BuyDao {
 				list.add(vo);
 			}
 			return list;
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeAll(conn, pstmt, rs);
+		}
+		return null;
+	}
+	
+	public List<BuyVo> getMyBuyList(String mem_id) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = getConnection();
+			String sql = "select y.buy_info_num, y.buy_date, y.book_num, y.book_amount, "
+					+ "   y.mem_id, y.mem_phone, y.mem_address, b.book_name "
+					+ "   from tbl_buy y, tbl_book b "
+					+ "   where y.book_num = b.book_num and mem_id = ? "
+					+ "   order by buy_info_num";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, mem_id);
+			rs = pstmt.executeQuery();
+			
+			List<BuyVo> list = new ArrayList<BuyVo>();
+			
+			while(rs.next()) {
+				int buy_info_num = rs.getInt("buy_info_num");
+				Timestamp buy_date = rs.getTimestamp("buy_date");
+				int book_num = rs.getInt("book_num");
+				int book_amount = rs.getInt("book_amount");
+				//mem_id 잊지마...
+				String mem_phone = rs.getString("mem_phone");
+				String mem_address = rs.getString("mem_address");
+				String book_name = rs.getString("book_name");
+				
+				BuyVo vo = new BuyVo();
+				vo.setBuy_info_num(buy_info_num);
+				vo.setBuy_date(buy_date);
+				vo.setBook_num(book_num);
+				vo.setBook_amount(book_amount);
+				vo.setMem_id(mem_id);
+				vo.setMem_phone(mem_phone);
+				vo.setMem_address(mem_address);
+				vo.setBook_name(book_name);
+				list.add(vo);
+			}
+			return list;
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeAll(conn, pstmt, rs);
+		}
+		return null;
+	}
+	
+	public Map<Integer, Integer> getCountBuyList(String mem_id) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = getConnection();
+			String sql = "select buy_info_num, count(*) cnt from tbl_buy where mem_id = ? group by buy_info_num order by buy_info_num";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, mem_id);
+			rs = pstmt.executeQuery();
+			Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+			while(rs.next()) {
+				int buy_info_num = rs.getInt("buy_info_num");
+				int count = rs.getInt("CNT");
+				map.put(buy_info_num, count);
+			}
+			return map;
 		} catch(Exception e) {
 			e.printStackTrace();
 		} finally {
