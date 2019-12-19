@@ -18,7 +18,7 @@ public class MyBuyListService implements IBoardService {
 	public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session = request.getSession();
 		String mem_id = (String)session.getAttribute("mem_id");
-
+		
 		List<BuyVo> list = dao.getMyBuyList(mem_id);
 		Map<Integer, Integer> map = dao.getCountBuyList(mem_id);
 		
@@ -27,5 +27,4 @@ public class MyBuyListService implements IBoardService {
 		
 		return "/WEB-INF/views/board/payment_result.jsp";
 	}
-
 }

@@ -92,10 +92,6 @@ $(function(){
 			</h1> 
 		</div>
 		<div class="col-md-4">
-			<!-- <button type="button" class="btn btn-success btn-lg btn-block"> -->
-			<!-- <button type="button" class="btn btn-primary btn-lg" id="btnBuy">
-				결제하기
-			</button> -->
 			<button type="button" class="btn btn-success btn-lg" id="btnCartAgain">
 				장바구니로
 			</button>

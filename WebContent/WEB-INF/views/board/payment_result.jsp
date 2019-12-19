@@ -30,8 +30,6 @@ $(function(){
 </script>
 </head>
 <body>
-<%-- ${list} --%>
-<%-- ${map} --%>
 <jsp:include page="header.jsp"></jsp:include>
 <br>
 <br>
@@ -45,25 +43,36 @@ $(function(){
 		<div class="col-md-2">
 		</div>
 		<div class="col-md-8">
-			<table class="table" id="cartTable">
+			<table class="table" id="cartTable" style="">
 				<thead>
 					<tr style="font-size:10pt">
 						<th>주문번호</th>
 						<th>상품명</th>
 						<th>총구매 수량</th>
+						<th>주문 일시</th>
+						<th>주소</th>
 					</tr>
 				</thead>
 				<tbody>
-				<c:forEach items="${list}" var="vo" varStatus="status">
+					<c:set var="sta" value="0"/>
+				<c:forEach items="${list}" var="vo">
 					<tr>
-						<c:if test="${status.index == 0}">
-							<td rowspan="${map.get('${vo.buy_info_num}')}">${vo.buy_info_num}</td>
+						<c:if test="${sta  == 0}">
+							<td rowspan="${map.get(vo.buy_info_num)}">${vo.buy_info_num}</td>
+						</c:if>
+						
+					<c:set var="sta" value="${sta+1}"/>
+						<c:if test="${sta == map.get(vo.buy_info_num)}">
+					<c:set var="sta" value="0"/>
 						</c:if>
 							<td>${vo.book_name}</td>
 							<td>${vo.book_amount}</td>
+							<td>${vo.buy_date}</td>
+							<td>${vo.mem_address}</td>
 					</tr>
 					</c:forEach>
 				</tbody>
+				
 			</table>
 		</div>
 		<div class="col-md-2">
@@ -79,4 +88,4 @@ $(function(){
     <script src="js/bootstrap.min.js"></script>
     <script src="js/scripts.js"></script>
 </body>
-</html>
+</html>	

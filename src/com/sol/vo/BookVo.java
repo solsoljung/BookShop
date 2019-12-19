@@ -6,6 +6,7 @@ public class BookVo {
 	private String book_name;
 	private int book_price;
 	private String category_code;
+	private String category_code_explain;
 	private String book_explain;
 	private String book_writer;
 	private int book_score;
@@ -16,13 +17,15 @@ public class BookVo {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public BookVo(int book_num, String book_name, int book_price, String category_code, String book_explain,
-			String book_writer, int book_score, int book_sold_count, String book_image, int book_stock) {
+	public BookVo(int book_num, String book_name, int book_price, String category_code, String category_code_explain,
+			String book_explain, String book_writer, int book_score, int book_sold_count, String book_image,
+			int book_stock) {
 		super();
 		this.book_num = book_num;
 		this.book_name = book_name;
 		this.book_price = book_price;
 		this.category_code = category_code;
+		this.category_code_explain = category_code_explain;
 		this.book_explain = book_explain;
 		this.book_writer = book_writer;
 		this.book_score = book_score;
@@ -90,11 +93,18 @@ public class BookVo {
 	public void setBook_stock(int book_stock) {
 		this.book_stock = book_stock;
 	}
+	public String getCategory_code_explain() {
+		return category_code_explain;
+	}
+	public void setCategory_code_explain(String category_code_explain) {
+		this.category_code_explain = category_code_explain;
+	}
 	@Override
 	public String toString() {
-		return "BestVo [book_num=" + book_num + ", book_name=" + book_name + ", book_price=" + book_price
-				+ ", category_code=" + category_code + ", book_explain=" + book_explain + ", book_writer=" + book_writer
-				+ ", book_score=" + book_score + ", book_sold_count=" + book_sold_count + ", book_image=" + book_image
-				+ ", book_stock=" + book_stock + "]";
+		return "BookVo [book_num=" + book_num + ", book_name=" + book_name + ", book_price=" + book_price
+				+ ", category_code=" + category_code + ", category_code_explain=" + category_code_explain
+				+ ", book_explain=" + book_explain + ", book_writer=" + book_writer + ", book_score=" + book_score
+				+ ", book_sold_count=" + book_sold_count + ", book_image=" + book_image + ", book_stock=" + book_stock
+				+ "]";
 	}
 }

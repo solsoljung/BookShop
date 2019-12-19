@@ -36,6 +36,9 @@ $(document).ready(function(){
 	$("#notLoginMyPage").click(function(){
 		location.href = "login.sol";
 	});
+	$("#loginMyPage").click(function(){
+		location.href = "my_buy_list.mem";
+	});
 	$("#notLoginCart").click(function(){
 		location.href = "login.sol";
 	});
@@ -47,6 +50,9 @@ $(document).ready(function(){
 	});
 	$("#btnRegister").click(function(){
 		location.href = "register.sol";
+	});
+	$("#btnAdmin").click(function(){
+		location.href = "adminProductPage.adm";
 	});
 });
 </script>
@@ -88,12 +94,17 @@ $(document).ready(function(){
 				<button class="btn btn-secondary" type="button" id="btnRegister">
 					회원가입
 				</button> 
-				<button class="btn btn-secondary" type="button">
+				<button class="btn btn-secondary" type="button" id="loginMyPage">
 					마이 페이지
 				</button> 
 				<button class="btn btn-secondary" type="button" id="btnCart">
 					장바구니
 				</button>
+				<c:if test="${mem_id eq 'js'}">
+					<button class="btn btn-secondary" type="button" id="btnAdmin">
+						제품관리
+					</button> 
+				</c:if>
 					</c:when>
 					<c:otherwise>
 				<button class="btn btn-secondary" type="button" id="btnLogin">
