@@ -67,7 +67,7 @@ $(function(){
 				<tbody>
 				<c:forEach items="${list}" var="vo">
 					<tr class="targetTr">
-						<td colspan="2"><img src="images/${vo.book_image}" width="50"/>
+						<td colspan="2"><img src="upload/${vo.book_image}" width="50"/>
 						<span style ="font-size:20pt">${vo.book_name}</span></td>
 						<td style="font-size:15pt" class="onePrice">${vo.book_price}</td>
 						<td style="font-size:15pt" class="oneAmount">${vo.book_amount}</td>

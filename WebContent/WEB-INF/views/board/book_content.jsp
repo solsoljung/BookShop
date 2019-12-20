@@ -44,7 +44,7 @@ $(function(){
 		<div class="col-md-2">
 		</div>
 		<div class="col-md-4">
-			<img src="images/${vo.book_image}" width="500"/>
+			<img src="upload/${vo.book_image}" width="500"/>
 		</div>
 		<div class="col-md-4">
 			<h1>${vo.book_name}</h1>

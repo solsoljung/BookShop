@@ -118,7 +118,7 @@ $(function(){
 				<tbody>
 				<c:forEach items="${list}" var="cartVo">
 					<tr class="targetTr">
-						<td><img src="images/${cartVo.book_image}" width="150"/></td>
+						<td><img src="upload/${cartVo.book_image}" width="150"/></td>
 						<td><span style ="font-size:20pt">${cartVo.book_name}</span></td>
 						<td style="font-size:15pt">${cartVo.book_price}원</td>
 						<td>

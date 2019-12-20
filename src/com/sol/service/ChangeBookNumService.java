@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.sol.dao.CartDao;
-import com.sol.vo.BookVo;
 import com.sol.vo.CartVo;
 
 public class ChangeBookNumService implements IBoardService {

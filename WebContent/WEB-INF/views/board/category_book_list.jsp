@@ -24,13 +24,37 @@
     <!-- Latest compiled and minified CSS -->
 
 <script>
-
-
+$(function(){
+	$("#btnAddBook").click(function(){
+ 		location.href = "add_book_form.adm?category_code=${category_code}";
+	});
+	$(".btnCartDelete").click(function(){
+// 		console.log($(this));
+		var that = $(this);
+		var v = $(this).data("num");
+		console.log(v);	
+		var url = "book_delete.ajax";
+		
+		var sData = {
+				"book_num" : v
+		};
+		$.post(url, sData, function(rData){
+			if (rData.trim() == "book_delete_success") {
+				var result = confirm("정말 삭제하시겠습니까?"); 
+				if(result){
+					that.parent().parent().remove();
+				}
+			}
+			
+		});
+	});
+});
 </script>
 
 </head>
 <body>
 <jsp:include page="header.jsp"></jsp:include>
+${msg}
 <br>
 <br>
 <br>
@@ -50,6 +74,7 @@
 						<th>재고량</th>
 						<th>판매량</th>
 						<th>가격</th>
+						<th>삭제</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -60,12 +85,16 @@
 						<td>${vo.book_stock}</td>
 						<td>${vo.book_sold_count}</td>
 						<td>${vo.book_price}</td>
+						<td>
+						  <input type="button" class="btnCartDelete" data-num="${vo.book_num}" style="font-weight:bold;font-size:13px;" value="X"/>
+						</td>
 					</tr>
 				</c:forEach>
 				</tbody>
 				
 			</table>
 			<br>
+			<input type="button" class="btn btn-success" value="상품등록" id="btnAddBook"/>
 			<br>
 			<br>
 			<br>

@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 
-    <title>책 정보 수정</title>
+    <title>책 등록</title>
 <style>
 .titleFont {
   font-weight: bold;
@@ -41,39 +41,38 @@ $(function(){
 		<div class="col-md-2">
 		</div>
 		<div class="col-md-8">
-			<form action="book_modify.adm">
-			<input type="hidden" name="book_num" value="${vo.book_num}"/>
+			<form action="add_book_pro.adm" enctype="multipart/form-data" method="post">
 			<table class="table">
 				<tr>
 					<td>제목</td>
-					<td><input type="text" value="${vo.book_name}" name="book_name" style="text-align:center; width:200px;"></td>
+					<td><input type="text" name="book_name" style="text-align:center; width:200px;"></td>
 				</tr>
 				<tr>
 					<td>작가</td>
-					<td><input type="text" value="${vo.book_writer}" name="book_writer" style="text-align:center; width:200px;"></td>
-				</tr>
-				<tr>
-					<td>재고량</td>
-					<td><input type="text" value="${vo.book_stock}" name="book_stock" style="text-align:center; width:200px;"></td>
+					<td><input type="text" name="book_writer" style="text-align:center; width:200px;"></td>
 				</tr>
 				<tr>
 					<td>가격</td>
-					<td><input type="text" value="${vo.book_price}" name="book_price" style="text-align:center; width:200px;"></td>
+					<td><input type="text" name="book_price" style="text-align:center; width:200px;"></td>
+				</tr>
+				<tr>
+					<td>재고수량</td>
+					<td><input type="text" name="book_stock" style="text-align:center; width:200px;"></td>
 				</tr>
 				<tr>
 					<td>카테고리</td>
-					<td><input type="text" value="${vo.category_code}" name="category_code" style="text-align:center; width:200px;"></td>
+					<td><input type="text" name="category_code" value="${category_code}" readonly style="text-align:center; width:200px;"></td>
 				</tr>
 				<tr>
 					<td>내용</td>
-					<td><textarea cols="100" rows="10" name="book_explain">${vo.book_explain}</textarea></td>
+					<td><textarea cols="100" rows="10" name="book_explain"></textarea></td>
 				</tr>
 				<tr>
 					<td>사진</td>
-					<td><input type="text" value="${vo.book_image}" name="book_image"></td>
+					<td><input type="file" name="book_image"></td>
 				</tr>
 			</table>
-			<input type="submit" class="btn btn-success" value="수정완료">
+			<input type="submit" class="btn btn-success" value="등록">
 		</form>
 		</div>
 		<div class="col-md-2">

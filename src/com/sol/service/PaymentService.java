@@ -63,7 +63,10 @@ public class PaymentService implements IBoardService {
 
 			newList.add(newVo);
 		}
-		buyDao.buy(newList, pointVo, list);
+		boolean result = buyDao.buy(newList, pointVo);
+		if(result == true) {
+			cartDao.deleteCart(list);
+		}
 		
 		return "redirect:my_buy_list.mem";
 	}

@@ -15,9 +15,7 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import com.sol.vo.BuyVo;
-import com.sol.vo.CartVo;
 import com.sol.vo.PointVo;
-import com.sun.javafx.scene.paint.GradientUtils.Point;
 
 public class BuyDao {
 
@@ -70,7 +68,7 @@ public class BuyDao {
 	}
 	
 	//바이다오 만들기
-	public void buy(List<BuyVo> buyList, PointVo pointVo, List<CartVo> cartList) {
+	public boolean buy(List<BuyVo> buyList, PointVo pointVo) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		
@@ -83,9 +81,6 @@ public class BuyDao {
 			
 			//포인트 적립
 			addPoint(pointVo);
-			
-			//장바구니에서 삭제
-			CartDao.getInstance().deleteCart(cartList);
 			
 			//구매테이블 추가
 			String  sql = 	"INSERT ALL ";
@@ -104,8 +99,11 @@ public class BuyDao {
 				pstmt.setString(++index, vo.getMem_phone());
 				pstmt.setString(++index, vo.getMem_address());
 			}
-			pstmt.executeUpdate();
-			conn.commit();
+			int result = pstmt.executeUpdate();
+			if(result > 0) {
+				conn.commit();
+				return true;
+			}
 		} catch(Exception e) {
 			try {
 				conn.rollback();
@@ -121,6 +119,7 @@ public class BuyDao {
 			}
 			closeAll(conn, pstmt, null);
 		}
+		return false;
 	}
 	
 	public List<BuyVo> getBuyList(String mem_id) {

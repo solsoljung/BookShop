@@ -27,7 +27,12 @@ var msg = "${param.msg}";
 if(msg == "login_fail"){
 	alert("로그인 실패");
 }
-
+$(function(){
+	$("#btnSearch").click(function(){
+		var search = $("#searchTarget").val();
+		location.href="search_list.sol?search=" + search;
+	});
+});
 </script>
 
 </head>
@@ -47,11 +52,11 @@ if(msg == "login_fail"){
                                     </div>
                                     <!--end of col-->
                                     <div class="col">
-                                        <input class="form-control form-control-lg form-control-borderless" type="search" placeholder="검색어를 입력하세요.">
+                                        <input class="form-control form-control-lg form-control-borderless" id="searchTarget" type="search" placeholder="검색어를 입력하세요.">
                                     </div>
                                     <!--end of col-->
                                     <div class="col-auto">
-                                        <button class="btn btn-lg btn-success" type="submit">Search</button>
+                                        <button class="btn btn-lg btn-success" type="submit" id="btnSearch">Search</button>
                                     </div>
                                     <!--end of col-->
                                 </div>

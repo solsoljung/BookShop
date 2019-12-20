@@ -44,7 +44,7 @@
 			<h1 align="right">${status.count}</h1>
 		</div>
 		<div class="col-md-2">
-		<img src="images/${bestVo.book_image}" width="300"/>
+		<img src="upload/${bestVo.book_image}" width="300"/>
 		</div>
 		<div class="col-md-5">
 			<h1><a href="content.sol?book_num=${bestVo.book_num}">

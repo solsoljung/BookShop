@@ -6,10 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.sol.dao.BuyDao;
 import com.sol.dao.CartDao;
 import com.sol.dao.MemberDao;
-import com.sol.vo.BuyVo;
 import com.sol.vo.CartVo;
 import com.sol.vo.MemberVo;
 

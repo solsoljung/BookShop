@@ -24,7 +24,30 @@
     <!-- Latest compiled and minified CSS -->
 
 <script>
-
+$(function(){
+	$("#btnAddCategory").click(function(){
+		location.href = "category_add_form.adm";
+	});
+	$(".btnCategoryDelete").click(function(){
+		var that = $(this);
+		var v = $(this).data("num");
+		console.log(v);	
+		var url = "category_delete.ajax";
+		
+		var sData = {
+				"category_code" : v
+		};
+		$.post(url, sData, function(rData){
+			if (rData.trim() == "success_category_delete") {
+				var result = confirm("정말 삭제하시겠습니까?"); 
+				if(result){
+					that.parent().parent().remove();
+				}
+			}
+			
+		});
+	});
+});
 
 </script>
 
@@ -44,6 +67,7 @@
 					<tr style="font-size:10pt">
 						<th>장르 코드</th>
 						<th>장르</th>
+						<th>삭제</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -51,11 +75,14 @@
 					<tr>
 						<td>${vo.category_code}</td>
 						<td><a href="category_book_list.adm?category_code=${vo.category_code}&category_code_explain=${vo.category_code_explain}">${vo.category_code_explain}</a></td>
+						<td>
+						  <input type="button" class="btnCategoryDelete" data-num="${vo.category_code}" style="font-weight:bold;font-size:13px;" value="X"/>
+						</td>
 					</tr>
 				</c:forEach>
 				</tbody>
-				
 			</table>
+				<input type="button" class="btn btn-success" value="카테고리 등록" id="btnAddCategory"/>
 		</div>
 		<div class="col-md-3">
 		</div>
