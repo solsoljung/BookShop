@@ -2,13 +2,14 @@
 <Context>
 	<!-- p.419 Connection Pool -->
 	<!-- 집에서 할 땐 orcl로 바꿔 -->
+	<!-- 학원에서 할 땐 xe로 바꿔 -->
     <Resource name="jdbc/basicjsp"
             auth="Container"
             type="javax.sql.DataSource"
             driverClassName="oracle.jdbc.driver.OracleDriver"
             username="BOOKSHOP"
             password="1234"
-            url="jdbc:oracle:thin:@localhost:1521:xe"
+            url="jdbc:oracle:thin:@localhost:1521:orcl"
             maxWait="5000"       
   />
 </Context>

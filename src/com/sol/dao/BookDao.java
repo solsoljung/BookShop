@@ -13,6 +13,8 @@ import javax.sql.DataSource;
 
 import com.sol.vo.BookVo;
 import com.sol.vo.BuyVo;
+import com.sol.vo.PagingVo;
+import com.sol.vo.SearchVo;
 
 public class BookDao {
 	
@@ -45,15 +47,17 @@ public class BookDao {
 		if (conn != null) try { conn.close(); } catch (Exception e) { }
 	}
 	
-	public int allBookCount() {
+	public int allBookCount(SearchVo vo) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 				
 		try {
 			conn = getConnection();
-			String sql = "select count(*) cnt from tbl_book";
+			String sql = "select count(*) cnt from tbl_book where book_name || book_explain || book_writer "
+					+ "  like '%' || ? || '%'";
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, vo.getSearchKeyword());
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				int count = rs.getInt("CNT");
@@ -189,7 +193,8 @@ public class BookDao {
 			conn = getConnection();
 			String sql = "select * from tbl_category c, tbl_book b "
 					+ "   where c.category_code = b.category_code "
-					+ "   and b.category_code = ?";
+					+ "   and b.category_code = ? "
+					+ "   order by b.book_num";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, category_code);
 			rs = pstmt.executeQuery();
@@ -276,14 +281,21 @@ public class BookDao {
 		return null;
 	}
 	
-	public List<BookVo> getBestSellerList() {
+	public List<BookVo> getBestSellerList(SearchVo searchVo, PagingVo pagingVo) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
 			conn = getConnection();
-			String sql = "select * from tbl_book order by book_sold_count desc";
+			String sql = "select *from "
+					+ "(select rownum rnum, a.* from "
+					+ "(select * from tbl_book where book_name || book_explain "
+					+ "|| book_explain like '%' || ? || '%' order by book_sold_count desc) a)"
+					+ " where rnum >= ? and rnum <= ?";
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, searchVo.getSearchKeyword());
+			pstmt.setInt(2, pagingVo.getStart_page());
+			pstmt.setInt(3, pagingVo.getEnd_page());
 			rs = pstmt.executeQuery();
 			List<BookVo> list = new ArrayList<BookVo>();
 			while(rs.next()) {

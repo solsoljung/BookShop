@@ -25,25 +25,36 @@
 
 <script>
 $(function(){
-	
+	$(".myTaget").click(function(){
+		var v = $(this).data("num");
+		console.log(v);
+		/* var c = ${map.get("count")};
+		console.log(c);
+		if(${map.get("count")} == v){
+			$(this).css("background-color", "yellow");
+		} */
+		location.href = "best.sol?search_keyword=${search_keyword}&now_page=" + v;
+	});
 });
 </script>
 
 </head>
 <body>
 <jsp:include page="header.jsp"></jsp:include>
-<br>
-<br>
-<br>
+
 <div class="container-fluid">
+<c:if test="${empty search_keyword}">
+<br>
+<br>
 <div class="row">
 		<div class="col-md-5">
 		</div>
 		<div class="col-md-3" align="center">
 			<ul class="nav">
-			<c:forEach begin='1' end='${map.get("count")}' varStatus='status'>
-  				<li class="nav-item">
-					<a class="nav-link active" data-num="${status.count}" href="#">${status.count}위</a>
+			<c:forEach begin='0' end='${map.get("count")-1}' varStatus='status'>
+  				<li class="nav-item" style="font-size:25px;">
+					<a class="nav-link active myTaget" data-num="${status.count}" 
+					href="#">${(status.index*10)+1}위</a>
 				</li>
  			</c:forEach>
 			</ul>
@@ -51,17 +62,20 @@ $(function(){
 		<div class="col-md-4">
 		</div>
 	</div>
-	
+</c:if>
+<br>
 <br>
 <br>
 	<!-- 여기부턴 베스트 셀러 반복할 부분 -->
 	<div class="row">
-	<c:forEach items="${list}" var="bestVo" varStatus="status">
+	<c:set var="index" value="${map.get('best_index')}"/>
+	<c:forEach items="${list}" var="bestVo">
 		<div class="col-md-2">
 		</div>
 		<div class="col-md-1">
-			<h1 align="right">${status.count}</h1>
+			<h1 align="right">${index}</h1>
 		</div>
+		<c:set var="index" value="${index+1}"/>
 		<div class="col-md-2">
 		<img src="upload/${bestVo.book_image}" width="300"/>
 		</div>
@@ -86,6 +100,27 @@ $(function(){
 		</c:forEach>
 		<hr>
 	</div>
+		<c:if test="${!empty search_keyword}">
+		<br>
+		<br>
+		<br>
+	<div class="row">
+		<div class="col-md-5">
+		</div>
+		<div class="col-md-3" align="center">
+			<ul class="nav">
+			<c:forEach begin='0' end='${map.get("count")-1}' varStatus='status'>
+  				<li class="nav-item" style="font-size:25px;">
+					<a class="nav-link active myTaget" data-num="${status.count}" 
+					href="#">${status.count}</a>
+				</li>
+ 			</c:forEach>
+			</ul>
+		</div>
+		<div class="col-md-4">
+		</div>
+	</div>
+		</c:if>
 	<!-- 베스트셀러 끝! -->
 	<br>
 	<br>

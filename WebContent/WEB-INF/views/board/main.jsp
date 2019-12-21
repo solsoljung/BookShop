@@ -30,7 +30,7 @@ if(msg == "login_fail"){
 $(function(){
 	$("#btnSearch").click(function(){
 		var search = $("#searchTarget").val();
-		location.href="search_list.sol?search=" + search;
+		location.href="best.sol?search_keyword=" + search;
 	});
 });
 </script>

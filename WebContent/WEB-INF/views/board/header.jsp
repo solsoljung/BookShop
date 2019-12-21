@@ -66,7 +66,7 @@ $(document).ready(function(){
 		<div class="col-md-4" align="center">
 			<ul class="nav">
 				<li class="nav-item">
-					<a class="nav-link active" href="best.sol">베스트 셀러</a>
+					<a class="nav-link active" href="best.sol?now_page=1">베스트 셀러</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link">국내도서</a>
