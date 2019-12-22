@@ -13,13 +13,14 @@ public class BookVo {
 	private int book_sold_count;
 	private String book_image;
 	private int book_stock;
+	private int book_amount;
 	public BookVo() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	public BookVo(int book_num, String book_name, int book_price, String category_code, String category_code_explain,
 			String book_explain, String book_writer, int book_score, int book_sold_count, String book_image,
-			int book_stock) {
+			int book_stock, int book_amount) {
 		super();
 		this.book_num = book_num;
 		this.book_name = book_name;
@@ -32,6 +33,7 @@ public class BookVo {
 		this.book_sold_count = book_sold_count;
 		this.book_image = book_image;
 		this.book_stock = book_stock;
+		this.book_amount = book_amount;
 	}
 	public int getBook_num() {
 		return book_num;
@@ -99,12 +101,18 @@ public class BookVo {
 	public void setCategory_code_explain(String category_code_explain) {
 		this.category_code_explain = category_code_explain;
 	}
+	public int getBook_amount() {
+		return book_amount;
+	}
+	public void setBook_amount(int book_amount) {
+		this.book_amount = book_amount;
+	}
 	@Override
 	public String toString() {
 		return "BookVo [book_num=" + book_num + ", book_name=" + book_name + ", book_price=" + book_price
 				+ ", category_code=" + category_code + ", category_code_explain=" + category_code_explain
 				+ ", book_explain=" + book_explain + ", book_writer=" + book_writer + ", book_score=" + book_score
 				+ ", book_sold_count=" + book_sold_count + ", book_image=" + book_image + ", book_stock=" + book_stock
-				+ "]";
+				+ ", book_amount=" + book_amount + "]";
 	}
 }

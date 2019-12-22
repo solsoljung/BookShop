@@ -65,7 +65,7 @@ $(function(){
 					</tr>
 				</thead>
 				<tbody>
-				<c:forEach items="${list}" var="vo">
+				<c:forEach items="${bookTempList}" var="vo">
 					<tr class="targetTr">
 						<td colspan="2"><img src="upload/${vo.book_image}" width="50"/>
 						<span style ="font-size:20pt">${vo.book_name}</span></td>
@@ -131,6 +131,9 @@ $(function(){
 					<input type="text" class="form-control" name="mem_address" id="mem_address" value="${memberVo.mem_address}"/>
 				</div>
 				<input type="submit" value="결제하기" id="btnBuy">
+				<br>
+				<br>
+				<br>
 			</form>
 		</div>
 		<div class="col-md-4">

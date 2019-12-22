@@ -22,14 +22,11 @@ public class BoardBestSellerService implements IBoardService {
 		String search_keyword = request.getParameter("search_keyword");
 		SearchVo searchVo = new SearchVo();
 		searchVo.setSearchKeyword(search_keyword);
-		System.out.println("검색어를 입력해주세용ㅇㅇㅇㅇ: "+search_keyword);
 		
 		int count = dao.allBookCount(searchVo);
-		System.out.println("개수11111111:"+count);
 		Map<String, Integer> map = new HashMap<String, Integer>();
 		double dbCount = ((double)count)/10;
 		count = (int) Math.ceil(dbCount);
-		System.out.println("개수22222222:"+count);
 		map.put("count", count);
 		
 		String str_now_page = request.getParameter("now_page");

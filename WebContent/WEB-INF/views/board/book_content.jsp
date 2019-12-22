@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,6 +29,10 @@ $(function(){
 	$("#btnPutCart").click(function(){
 		var book_amount = $("#inputAmount").val();
 		location.href = "cart.mem?book_num=${vo.book_num}&book_amount=" + book_amount;
+	});
+	$("#btnBuyNow").click(function(){
+		var book_amount = $("#inputAmount").val();
+		location.href = "buy_pro.mem?checked=${vo.book_num}&arrayParam=" + book_amount;
 	});
 });
 
@@ -59,8 +64,16 @@ $(function(){
 			<input type="text" id="inputAmount" style="text-align:center;font-size:20px;width:50px;" name="book_amount" value="1"/>&nbsp;개
 			<br>
 			<br>
-			<a id="btnPutCart" class="btn btn-lg active btn-link" type="button">장바구니</a> 
-			<a href="#" class="btn btn-lg btn-link" type="button">바로 구매</a>
+			<c:choose>
+				 	<c:when test="${not empty mem_id}">
+<a id="btnPutCart" class="btn btn-lg active btn-link" type="button">장바구니</a>
+<a id="btnBuyNow" class="btn btn-lg btn-link" type="button">바로 구매</a>
+					</c:when>
+					<c:otherwise>
+<a href="login.sol" class="btn btn-lg btn-link" type="button">장바구니 담기</a>
+<a href="login.sol" class="btn btn-lg btn-link" type="button">바로 구매</a>
+					</c:otherwise>
+			</c:choose>
 		</div>
 		<div class="col-md-2">
 		</div>
@@ -79,7 +92,7 @@ $(function(){
 				이 작가의 다른 책도 만나보세요!
 			</h5>
 			<p>
-				<a class="btn" href="same_writer.sol?book_writer=${vo.book_writer}">바로 만나보기 »</a>
+				<a class="btn" href="best.sol?search_keyword=${vo.book_writer}">바로 만나보기 »</a>
 			</p>
 		</div>
 		<div class="col-md-4">
@@ -109,7 +122,7 @@ $(function(){
 			<br>
 			<br>
 			<!-- 집에서는 이것을 넣으시오  style="font-family:Nanum DongHwaDdoBag" -->
-			<h2 align="center">${vo.book_explain}</h2>
+			<h2 align="center" style="font-family:Nanum DongHwaDdoBag">${vo.book_explain}</h2>
 		
 		<br>
 		<br>

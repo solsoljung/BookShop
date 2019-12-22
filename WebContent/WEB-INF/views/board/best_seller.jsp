@@ -35,7 +35,19 @@ $(function(){
 		} */
 		location.href = "best.sol?search_keyword=${search_keyword}&now_page=" + v;
 	});
+	var url = request.getHeader("REFERER");
+	console.log(url);
 });
+<%
+String url = request.getHeader("REFERER");
+Boolean result = false;
+
+if(url.contains("content")){
+	result = true;
+}
+
+pageContext.setAttribute("result", result);
+%>
 </script>
 
 </head>
@@ -43,26 +55,29 @@ $(function(){
 <jsp:include page="header.jsp"></jsp:include>
 
 <div class="container-fluid">
-<c:if test="${empty search_keyword}">
 <br>
 <br>
 <div class="row">
 		<div class="col-md-5">
 		</div>
 		<div class="col-md-3" align="center">
+<c:if test="${empty search_keyword}">
 			<ul class="nav">
 			<c:forEach begin='0' end='${map.get("count")-1}' varStatus='status'>
   				<li class="nav-item" style="font-size:25px;">
 					<a class="nav-link active myTaget" data-num="${status.count}" 
-					href="#">${(status.index*10)+1}위</a>
+					href="#">${(status.index*10)+1}위▽</a>
 				</li>
  			</c:forEach>
 			</ul>
+</c:if>
+<c:if test="${!empty search_keyword&&map.get('count') ne 0&&pageScope.result eq false}">
+			<h3>${search_keyword}(으)로 검색한 결과입니다.</h3>
+</c:if>
 		</div>
 		<div class="col-md-4">
 		</div>
 	</div>
-</c:if>
 <br>
 <br>
 <br>
@@ -89,8 +104,16 @@ $(function(){
 			<h4>${bestVo.book_price}</h4>
 			<h4>★★★★★</h4>
 			<hr>
-			<a href="cart.mem?book_num=${bestVo.book_num}&book_amount=1" class="btn btn-lg btn-link" type="button">장바구니 담기</a>
-			<a href="#" class="btn btn-lg btn-link" type="button">바로 구매</a>
+			<c:choose>
+				 	<c:when test="${not empty mem_id}">
+<a href="cart.mem?book_num=${bestVo.book_num}&book_amount=1" class="btn btn-lg btn-link" type="button">장바구니 담기</a>
+<a href="buy_pro.mem?checked=${bestVo.book_num}&arrayParam=1" class="btn btn-lg btn-link" type="button">바로 구매</a>
+					</c:when>
+					<c:otherwise>
+<a href="login.sol" class="btn btn-lg btn-link" type="button">장바구니 담기</a>
+<a href="login.sol" class="btn btn-lg btn-link" type="button">바로 구매</a>
+					</c:otherwise>
+			</c:choose>
 		</div>
 		<div class="col-md-2">
 		</div>
@@ -109,12 +132,19 @@ $(function(){
 		</div>
 		<div class="col-md-3" align="center">
 			<ul class="nav">
+			<c:choose>
+				<c:when test='${map.get("count") eq 0}'>
+					<h3>${search_keyword}(으)로 검색한 결과가 없습니다.</h3>
+				</c:when>
+				<c:otherwise>
 			<c:forEach begin='0' end='${map.get("count")-1}' varStatus='status'>
   				<li class="nav-item" style="font-size:25px;">
 					<a class="nav-link active myTaget" data-num="${status.count}" 
 					href="#">${status.count}</a>
 				</li>
  			</c:forEach>
+ 			</c:otherwise>
+ 			</c:choose>
 			</ul>
 		</div>
 		<div class="col-md-4">

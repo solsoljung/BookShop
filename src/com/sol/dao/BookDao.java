@@ -15,6 +15,7 @@ import com.sol.vo.BookVo;
 import com.sol.vo.BuyVo;
 import com.sol.vo.PagingVo;
 import com.sol.vo.SearchVo;
+import com.sol.vo.TempBuyVo;
 
 public class BookDao {
 	
@@ -235,52 +236,6 @@ public class BookDao {
 		return null;
 	}
 	
-	public List<BookVo> Search(String search) {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		
-		try {
-			conn = getConnection();
-			String sql = "select * from tbl_book where book_name || book_explain || book_writer like '%' || ? || '%' order by book_sold_count asc";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, search);
-			rs = pstmt.executeQuery();
-			List<BookVo> list = new ArrayList<BookVo>();
-			while(rs.next()) {
-				int book_num = rs.getInt("book_num");
-				String book_name = rs.getString("book_name");
-				int book_price = rs.getInt("book_price");
-				String category_code = rs.getString("category_code");
-				String book_explain = rs.getString("book_explain");
-				String book_writer = rs.getString("book_writer");
-				int book_score = rs.getInt("book_score");
-				int book_sold_count = rs.getInt("book_sold_count");
-				String book_image = rs.getString("book_image");
-				int book_stock = rs.getInt("book_stock");
-				
-				BookVo vo = new BookVo();
-				vo.setBook_num(book_num);
-				vo.setBook_name(book_name);
-				vo.setBook_price(book_price);
-				vo.setCategory_code(category_code);
-				vo.setBook_explain(book_explain);
-				vo.setBook_writer(book_writer);
-				vo.setBook_score(book_score);
-				vo.setBook_sold_count(book_sold_count);
-				vo.setBook_image(book_image);
-				vo.setBook_stock(book_stock);
-				list.add(vo);
-			}
-			return list;
-		} catch(Exception e) {
-			e.printStackTrace();
-		} finally {
-			closeAll(conn, pstmt, rs);
-		}
-		return null;
-	}
-	
 	public List<BookVo> getBestSellerList(SearchVo searchVo, PagingVo pagingVo) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -289,7 +244,7 @@ public class BookDao {
 			conn = getConnection();
 			String sql = "select *from "
 					+ "(select rownum rnum, a.* from "
-					+ "(select * from tbl_book where book_name || book_explain "
+					+ "(select * from tbl_book where book_name || book_writer "
 					+ "|| book_explain like '%' || ? || '%' order by book_sold_count desc) a)"
 					+ " where rnum >= ? and rnum <= ?";
 			pstmt = conn.prepareStatement(sql);
@@ -374,6 +329,45 @@ public class BookDao {
 		return null;
 	}
 	
+	public List<BookVo> getTempList(List<TempBuyVo> list) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = getConnection();
+			String sql = "select book_name, book_image, book_price from tbl_book where book_num = ?";
+			int index = 0;
+			List<BookVo> bookList = new ArrayList<BookVo>();
+			for(int i=0;i<list.size();i++) {
+				pstmt = conn.prepareStatement(sql);
+				TempBuyVo vo = list.get(i);
+				pstmt.setInt(++index, vo.getBook_num());
+				rs = pstmt.executeQuery();
+				while(rs.next()) {
+					String book_name = rs.getString("book_name");
+					String book_image = rs.getString("book_image");
+					int book_price = rs.getInt("book_price");
+					
+					BookVo bookVo = new BookVo();
+					bookVo.setBook_num(vo.getBook_num());
+					bookVo.setBook_name(book_name);
+					bookVo.setBook_image(book_image);
+					bookVo.setBook_price(book_price);
+					bookVo.setBook_amount(vo.getBook_amount());
+					bookList.add(bookVo);
+				}
+				index = 0;
+			}
+			return bookList;
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeAll(conn, pstmt, null);
+		}
+		return null;
+	}
+	
 	public void changeBookScore(List<BuyVo> list) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -411,50 +405,6 @@ public class BookDao {
 			}
 			closeAll(conn, pstmt, null);
 		}
-	}
-	
-	public List<BookVo> sameWriter(String book_writer) {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			conn = getConnection();
-			String sql = "select * from tbl_book where book_writer = ?";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, book_writer);
-			rs = pstmt.executeQuery();
-			List<BookVo> list = new ArrayList<BookVo>();
-			while(rs.next()) {
-				int book_num = rs.getInt("book_num");
-				String book_name = rs.getString("book_name");
-				int book_price = rs.getInt("book_price");
-				String category_code = rs.getString("category_code");
-				String book_explain = rs.getString("book_explain");
-				int book_score = rs.getInt("book_score");
-				int book_sold_count = rs.getInt("book_sold_count");
-				String book_image = rs.getString("book_image");
-				int book_stock = rs.getInt("book_stock");
-				
-				BookVo vo = new BookVo();
-				vo.setBook_num(book_num);
-				vo.setBook_name(book_name);
-				vo.setBook_price(book_price);
-				vo.setCategory_code(category_code);
-				vo.setBook_explain(book_explain);
-				vo.setBook_writer(book_writer);
-				vo.setBook_score(book_score);
-				vo.setBook_sold_count(book_sold_count);
-				vo.setBook_image(book_image);
-				vo.setBook_stock(book_stock);
-				list.add(vo);
-			}
-			return list;
-		} catch(Exception e) {
-			e.printStackTrace();
-		} finally {
-			closeAll(conn, pstmt, rs);
-		}
-		return null;
 	}
 	
 	public boolean updateBookInfo(BookVo vo) {

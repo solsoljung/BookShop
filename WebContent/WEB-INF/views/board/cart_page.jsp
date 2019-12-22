@@ -42,10 +42,6 @@ $(function(){
 		});
 	});
 	
-	$("#btnBuy").click(function(e){
-		location.href = "buy_list.mem";
-	});
-	
 	$(".plus").click(function(){
 		var num = $(this).prev().val();
 		var plusNum = parseInt(num) + 1;
@@ -63,8 +59,12 @@ $(function(){
 				"book_amount" : plusNum
 		};
 		$.post(url, sData, function(rData){
-			console.log(rData);
+			//$(this).prev().val(plusNum);
 		});
+		
+		//값 바뀔 때마다 체크박스 데이터의 개수도 바꿔주는 것
+		var myAmount = $(this).parent().parent().next().next().children();
+		$(myAmount).data("num",plusNum);
 		  });
 	$(".minus").click(function(){
 		var num = $(this).next().val();
@@ -83,10 +83,28 @@ $(function(){
 				"book_amount" : minusNum
 		};
 		$.post(url, sData, function(rData){
-			console.log(rData);
 		});
-		  });
+		
+		//값 바뀔 때마다 체크박스 데이터의 개수도 바꿔주는 것
+		var myAmount = $(this).parent().parent().next().next().children();
+		$(myAmount).data("num",minusNum);
+	});
 
+	$("#btnBuy").click(function(e){
+		var arrayParam = new Array();
+		var that = $('.cbox:checkbox:checked');
+		var checked = $('.cbox:checkbox:checked').map(function(){ 
+			return this.value; 
+			}).get().join(',');
+
+		$('.cbox:checkbox:checked').each(function(){
+			var v = $(this).data("num");
+			arrayParam.push(v);
+		});
+
+		console.log(arrayParam);
+		location.href = "buy_pro.mem?checked=" + checked + "&arrayParam=" + arrayParam;
+	});
 });
 
 </script>
@@ -112,7 +130,7 @@ $(function(){
 						<th>상품명</th>
 						<th>가격</th>
 						<th>수량</th>
-						<th>삭제</th>
+						<th colspan="2">선택/삭제</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -134,6 +152,9 @@ $(function(){
 						  <input type="button" class="btnCartDelete" data-num="${cartVo.book_num}" style="font-weight:bold;font-size:13px;" value="X"/>
 						</td>
 						<!-- 삭제 끝-->
+						<td>
+							<input type="checkbox" class="cbox" value="${cartVo.book_num}" data-num="${cartVo.book_amount}">
+						</td>
 					</tr>
 					</c:forEach>
 				</tbody>

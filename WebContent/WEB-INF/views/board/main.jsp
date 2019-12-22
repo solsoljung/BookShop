@@ -13,6 +13,7 @@
   font-size: 64px;
 
 }
+
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <meta name="description" content="Source code generated using layoutit.com">
@@ -32,6 +33,8 @@ $(function(){
 		var search = $("#searchTarget").val();
 		location.href="best.sol?search_keyword=" + search;
 	});
+	
+	 $('#carousel-359360').find('.carousel-item').first().addClass('active');
 });
 </script>
 
@@ -52,7 +55,7 @@ $(function(){
                                     </div>
                                     <!--end of col-->
                                     <div class="col">
-                                        <input class="form-control form-control-lg form-control-borderless" id="searchTarget" type="search" placeholder="검색어를 입력하세요.">
+                                        <input class="form-control form-control-lg form-control-borderless" id="searchTarget" style="text-align:center;" type="search" placeholder="책 제목, 작가, 내용으로 검색합니다.">
                                     </div>
                                     <!--end of col-->
                                     <div class="col-auto">
@@ -73,7 +76,7 @@ $(function(){
 		<div class="col-md-1">
 		</div>
 		<div class="col-md-10">
-			<div class="carousel slide" id="carousel-359360">
+			<div class="carousel slide" id="carousel-359360" data-interval="3000">
 				<ol class="carousel-indicators">
 					<li data-slide-to="0" data-target="#carousel-359360" class="active">
 					</li>
@@ -84,35 +87,35 @@ $(function(){
 				</ol>
 				<div class="carousel-inner">
 					<div class="carousel-item active">
-						<img class="d-block w-100" alt="Carousel Bootstrap First" src="images/book_image1.jpg" />
+						<img class="d-block w-100" alt="Carousel Bootstrap First" src="images/tree.jpg" />
 						<div class="carousel-caption">
 							<h4>
-								First Thumbnail label
+								이번 크리스마스에
 							</h4>
 							<p>
-								Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
+								책으로 고마움을 전하는건 어떠세요?
 							</p>
 						</div>
 					</div>
 					<div class="carousel-item">
-						<img class="d-block w-100" alt="Carousel Bootstrap Second" src="images/book_image2.jpg" />
+						<img class="d-block w-100" alt="Carousel Bootstrap Second" src="images/back.jpg" />
 						<div class="carousel-caption">
-							<h4>
-								Second Thumbnail label
-							</h4>
+							<h2>
+								솔 책방
+							</h2>
 							<p>
-								Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
+								지금 나온 책들을 만나보세요!
 							</p>
 						</div>
 					</div>
 					<div class="carousel-item">
-						<img class="d-block w-100" alt="Carousel Bootstrap Third" src="images/book_image3.jpg" />
+						<img class="d-block w-100" alt="Carousel Bootstrap Third" src="images/book_light.jpg" />
 						<div class="carousel-caption">
 							<h4>
-								Third Thumbnail label
+								포인트 두배 적립기간 입니다.
 							</h4>
 							<p>
-								Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
+								인기 작가의 책을 먼저 만나보세요!
 							</p>
 						</div>
 					</div>
@@ -123,8 +126,12 @@ $(function(){
 		</div>
 	</div>
 </div>
+<br>
+<br>
+<br>
+<br>
 <!-- 여기까지가 회전목마 -->
-	<div class="row">
+	<!-- <div class="row">
 		<div class="col-md-12">
 			<div class="tabbable" id="tabs-485082">
 				<ul class="nav nav-tabs">
@@ -149,7 +156,7 @@ $(function(){
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> -->
 
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>

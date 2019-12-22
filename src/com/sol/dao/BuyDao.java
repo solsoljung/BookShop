@@ -93,6 +93,7 @@ public class BuyDao {
 			pstmt = conn.prepareStatement(sql);
 			for(int i=0;i<buyList.size();i++) {
 				BuyVo vo = buyList.get(i);
+				System.out.println("제 부모님은 어디 계시죠? "+buyList.size());
 				pstmt.setInt(++index, vo.getBook_num());
 				pstmt.setInt(++index, vo.getBook_amount());
 				pstmt.setString(++index, vo.getMem_id());
@@ -176,7 +177,7 @@ public class BuyDao {
 					+ "   y.mem_id, y.mem_phone, y.mem_address, b.book_name "
 					+ "   from tbl_buy y, tbl_book b "
 					+ "   where y.book_num = b.book_num and mem_id = ? "
-					+ "   order by buy_info_num";
+					+ "   order by buy_info_num desc";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, mem_id);
 			rs = pstmt.executeQuery();

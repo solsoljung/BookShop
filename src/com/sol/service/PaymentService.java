@@ -11,6 +11,7 @@ import com.sol.common.IConstants;
 import com.sol.dao.BuyDao;
 import com.sol.dao.CartDao;
 import com.sol.dao.MemberDao;
+import com.sol.vo.BookVo;
 import com.sol.vo.BuyVo;
 import com.sol.vo.CartVo;
 import com.sol.vo.MemberVo;
@@ -48,12 +49,15 @@ public class PaymentService implements IBoardService {
 		
 		//장바구니에서 삭제,
 		//구매테이블에 추가
-		List<CartVo> list = cartDao.getMyCartList(mem_id);
+		@SuppressWarnings("unchecked")
+		List<BookVo> bookTempList = (List<BookVo>) session.getAttribute("bookTempList");
+		System.out.println("propayment에서 날랄ㅇ오오: "+bookTempList.size());
 		List<BuyVo> newList = new ArrayList<BuyVo>();
 		
-		for(CartVo vo : list) {
+		for(BookVo vo : bookTempList) {
 			int book_num = vo.getBook_num();
 			int book_amount = vo.getBook_amount();
+			
 			BuyVo newVo = new BuyVo();
 			newVo.setBook_num(book_num);
 			newVo.setBook_amount(book_amount);
@@ -65,7 +69,7 @@ public class PaymentService implements IBoardService {
 		}
 		boolean result = buyDao.buy(newList, pointVo);
 		if(result == true) {
-			cartDao.deleteCart(list);
+			cartDao.deleteCart(bookTempList, mem_id);
 		}
 		
 		return "redirect:my_buy_list.mem";

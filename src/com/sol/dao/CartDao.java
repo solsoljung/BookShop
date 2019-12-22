@@ -11,6 +11,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import com.sol.vo.BookVo;
 import com.sol.vo.CartVo;
 
 public class CartDao {
@@ -134,7 +135,7 @@ public class CartDao {
 		return null;
 	}
 	
-	public boolean deleteCart(List<CartVo> list) {
+	public boolean deleteCart(List<BookVo> list, String mem_id) {
 			Connection conn = null;
 			PreparedStatement pstmt = null;
 			
@@ -146,9 +147,9 @@ public class CartDao {
 				int result = 0;
 				for(int i=0;i<list.size();i++) {
 					pstmt = conn.prepareStatement(sql);
-					CartVo vo = list.get(i);
+					BookVo vo = list.get(i);
 					pstmt.setInt(++index, vo.getBook_num());
-					pstmt.setString(++index, vo.getMem_id());
+					pstmt.setString(++index, mem_id);
 					result = pstmt.executeUpdate();
 					index = 0;
 				}
