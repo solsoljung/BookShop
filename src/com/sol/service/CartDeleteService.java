@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.sol.dao.CartDao;
+import com.sol.vo.BookVo;
 import com.sol.vo.CartVo;
 
 public class CartDeleteService implements IBoardService {
@@ -19,13 +20,12 @@ public class CartDeleteService implements IBoardService {
 		int book_num = Integer.parseInt(request.getParameter("book_num"));
 		HttpSession session = request.getSession();
 		String mem_id = (String)session.getAttribute("mem_id");
-		CartVo vo = new CartVo();
+		BookVo vo = new BookVo();
 		vo.setBook_num(book_num);
-		vo.setMem_id(mem_id);
-		List<CartVo> list = new ArrayList<CartVo>();
+		List<BookVo> list = new ArrayList<BookVo>();
 		list.add(vo);
 		
-		boolean result = dao.deleteCart(list);
+		boolean result = dao.deleteCart(list, mem_id);
 		String msg = "";
 		
 		if(result == true) {
