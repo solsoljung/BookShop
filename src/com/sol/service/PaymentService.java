@@ -43,9 +43,10 @@ public class PaymentService implements IBoardService {
 		pointVo.setMem_id(mem_id);
 		pointVo.setPoint_code(IConstants.BUY_BOOK_CODE);
 		int allPrice = Integer.parseInt(request.getParameter("allPrice"));
-		//int allPrice = (int)request.getAttribute("allPrice");
-		int point_score = (int)(allPrice*0.05);
-		pointVo.setPoint_score(point_score);
+		int buy_point = (int)(allPrice*0.05);
+		pointVo.setPoint_score(buy_point);
+		
+		session.setAttribute("now_buy_point", buy_point);
 		
 		//장바구니에서 삭제,
 		//구매테이블에 추가
@@ -64,15 +65,23 @@ public class PaymentService implements IBoardService {
 			newVo.setMem_id(mem_id);
 			newVo.setMem_phone(mem_phone);
 			newVo.setMem_address(mem_address);
+			newVo.setBuy_all_price(allPrice);
+			newVo.setBuy_point(buy_point);
 
 			newList.add(newVo);
 		}
-		boolean result = buyDao.buy(newList, pointVo);
-		if(result == true) {
-			cartDao.deleteCart(bookTempList, mem_id);
+		boolean result = buyDao.buy(newList, pointVo, mem_id);
+		String msg = "";
+		String url = "";
+		if(result == false) {
+			msg = "buy_fail";
+			url = "redirect:cart_form.mem?msg=" + msg;
+		} else if(result == true) {
+			msg = "buy_success";
+			url = "redirect:my_buy_list.mem?msg=" + msg;
 		}
 		
-		return "redirect:my_buy_list.mem";
+		return url;
 	}
 
 }

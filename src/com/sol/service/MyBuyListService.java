@@ -21,9 +21,16 @@ public class MyBuyListService implements IBoardService {
 		
 		List<BuyVo> list = dao.getMyBuyList(mem_id);
 		Map<Integer, Integer> map = dao.getCountBuyList(mem_id);
+
+		String msg = request.getParameter("msg");
+		System.out.println("구매를 성공했나여?? 마이바이리스트입니다." + msg);
+		
+		//나의 포인트 총합
+		int all_point = dao.getMyAllPoint(mem_id);
 		
 		request.setAttribute("list", list);
 		request.setAttribute("map", map);
+		request.setAttribute("all_point", all_point);
 		
 		return "/WEB-INF/views/board/payment_result.jsp";
 	}

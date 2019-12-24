@@ -87,13 +87,13 @@
 					</div>
 
 					<div class="w-full text-center">
-						<a href="#" class="txt3">
+						<a href="register.sol" class="txt3">
 							회원가입
 						</a>
 					</div>
 				</form>
 
-				<div class="login100-more" style="background-image: url('images/10.jpg');"></div>
+				<div class="login100-more" style="background-image: url('upload/10.jpg');"></div>
 			</div>
 		</div>
 	</div>

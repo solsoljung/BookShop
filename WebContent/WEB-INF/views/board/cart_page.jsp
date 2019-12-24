@@ -24,6 +24,15 @@
 <script>
 $(function(){
 	
+	var msg = "${msg}";
+	if(msg == "buy_fail"){
+		alert("[재고 부족] 구매를 실패하였습니다.");
+	}else{
+		
+	}
+	
+	$(".cbox").prop("checked",true);
+	
 	$(".btnCartDelete").click(function(){
 // 		console.log($(this));
 		var that = $(this);

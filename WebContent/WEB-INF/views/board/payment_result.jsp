@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,6 +29,16 @@ $(function(){
 });
 
 </script>
+<%
+String url = request.getHeader("REFERER");
+Boolean result = false;
+System.out.println(url);
+if(url.contains("buy_pro")){
+	result = true;
+}
+
+pageContext.setAttribute("result", result);
+%>
 </head>
 <body>
 <jsp:include page="header.jsp"></jsp:include>
@@ -35,6 +46,18 @@ $(function(){
 <br>
 <br>
 <h1 align="center">나의 구매내역</h1>
+<br>
+<br>
+<br>
+<c:if test="${pageScope.result eq true}">
+	<h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+구매완료! <span style="font-weight:bold;">
+<fmt:formatNumber value="${now_buy_point}" pattern="#,###"></fmt:formatNumber>
+</span> 포인트가 적립되었습니다.</h3>		
+</c:if>
 <br>
 <br>
 <br>
@@ -47,10 +70,12 @@ $(function(){
 				<thead>
 					<tr style="font-size:10pt">
 						<th>주문번호</th>
-						<th>상품명</th>
-						<th>총구매 수량</th>
 						<th>주문 일시</th>
 						<th>주소</th>
+						<th>총결제액</th>
+						<th>적립 포인트</th>
+						<th>상품명</th>
+						<th>구매 수량</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -59,6 +84,10 @@ $(function(){
 					<tr>
 						<c:if test="${sta  == 0}">
 							<td rowspan="${map.get(vo.buy_info_num)}">${vo.buy_info_num}</td>
+							<td rowspan="${map.get(vo.buy_info_num)}">${vo.buy_date}</td>
+							<td rowspan="${map.get(vo.buy_info_num)}">${vo.mem_address}</td>
+							<td rowspan="${map.get(vo.buy_info_num)}">${vo.buy_all_price}원</td>
+							<td rowspan="${map.get(vo.buy_info_num)}">${vo.buy_point}</td>
 						</c:if>
 						
 					<c:set var="sta" value="${sta+1}"/>
@@ -67,8 +96,6 @@ $(function(){
 						</c:if>
 							<td>${vo.book_name}</td>
 							<td>${vo.book_amount}</td>
-							<td>${vo.buy_date}</td>
-							<td>${vo.mem_address}</td>
 					</tr>
 					</c:forEach>
 				</tbody>
@@ -76,6 +103,18 @@ $(function(){
 			</table>
 		</div>
 		<div class="col-md-2">
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+		<br>
+		<br>
+		<br>
+		<br>
+			<h1>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+현재 나의 포인트: <span style="font-weight:bold;"><fmt:formatNumber value="${all_point}" pattern="#,###"></fmt:formatNumber></span> POINT</h1>
 		</div>
 	</div>
 	<br>

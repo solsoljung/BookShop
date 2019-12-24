@@ -1,8 +1,11 @@
 package com.sol.vo;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class BuyVo {
+
+@SuppressWarnings("serial")
+public class BuyVo implements Serializable{
 
 	private int buy_info_num;
 	private Timestamp buy_date;
@@ -12,15 +15,16 @@ public class BuyVo {
 	private String book_name;
 	private String book_image;
 	private int book_price;
+	private int buy_all_price;
+	private int buy_point;
 	private String mem_phone;
 	private String mem_address;
 	public BuyVo() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
 	public BuyVo(int buy_info_num, Timestamp buy_date, int book_num, int book_amount, String mem_id, String book_name,
-			String book_image, int book_price, String mem_phone, String mem_address) {
+			String book_image, int book_price, int buy_all_price, int buy_point, String mem_phone, String mem_address) {
 		super();
 		this.buy_info_num = buy_info_num;
 		this.buy_date = buy_date;
@@ -30,10 +34,11 @@ public class BuyVo {
 		this.book_name = book_name;
 		this.book_image = book_image;
 		this.book_price = book_price;
+		this.buy_all_price = buy_all_price;
+		this.buy_point = buy_point;
 		this.mem_phone = mem_phone;
 		this.mem_address = mem_address;
 	}
-
 	public int getBuy_info_num() {
 		return buy_info_num;
 	}
@@ -99,11 +104,23 @@ public class BuyVo {
 		this.mem_address = mem_address;
 	}
 
+	public int getBuy_all_price() {
+		return buy_all_price;
+	}
+	public void setBuy_all_price(int buy_all_price) {
+		this.buy_all_price = buy_all_price;
+	}
+	public int getBuy_point() {
+		return buy_point;
+	}
+	public void setBuy_point(int buy_point) {
+		this.buy_point = buy_point;
+	}
 	@Override
 	public String toString() {
 		return "BuyVo [buy_info_num=" + buy_info_num + ", buy_date=" + buy_date + ", book_num=" + book_num
 				+ ", book_amount=" + book_amount + ", mem_id=" + mem_id + ", book_name=" + book_name + ", book_image="
-				+ book_image + ", book_price=" + book_price + ", mem_phone=" + mem_phone + ", mem_address="
-				+ mem_address + "]";
+				+ book_image + ", book_price=" + book_price + ", buy_all_price=" + buy_all_price + ", buy_point="
+				+ buy_point + ", mem_phone=" + mem_phone + ", mem_address=" + mem_address + "]";
 	}
 }

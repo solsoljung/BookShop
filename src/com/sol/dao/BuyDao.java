@@ -14,6 +14,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import com.sol.vo.BookVo;
 import com.sol.vo.BuyVo;
 import com.sol.vo.PointVo;
 
@@ -68,39 +69,87 @@ public class BuyDao {
 	}
 	
 	//바이다오 만들기
-	public boolean buy(List<BuyVo> buyList, PointVo pointVo) {
+	public boolean buy(List<BuyVo> buyList, PointVo pointVo, String mem_id) {
 		Connection conn = null;
-		PreparedStatement pstmt = null;
+		PreparedStatement pstmt1 = null;
+		PreparedStatement pstmt2 = null;
+		PreparedStatement pstmt3 = null;
+		PreparedStatement pstmt4 = null;
+		PreparedStatement pstmt5 = null;
+		ResultSet rs = null;
 		
 		try {
 			conn = getConnection();
 			conn.setAutoCommit(false);
 			
 			//재고바꾸기
-			BookDao.getInstance().changeBookScore(buyList);
+			//BookDao.getInstance().changeBookScore(buyList);
+			String sql1 = "update tbl_book set book_sold_count = book_sold_count + ?, "
+					+ "   book_stock = book_stock -? where book_num = ?";
+			int updateindex = 0;
+			for(int i=0;i<buyList.size();i++) {
+				pstmt1 = conn.prepareStatement(sql1);
+				BuyVo vo = buyList.get(i);
+				pstmt1.setInt(++updateindex, vo.getBook_amount());
+				pstmt1.setInt(++updateindex, vo.getBook_amount());
+				pstmt1.setInt(++updateindex, vo.getBook_num());
+				pstmt1.executeUpdate();
+				updateindex = 0;
+			}
+			
+			String sql5 = "select count(*) cnt from tbl_book where book_stock < 0";
+			pstmt5 = conn.prepareStatement(sql5);
+			rs = pstmt5.executeQuery();
+			int count = 0;
+			if(rs.next()) {
+				count = rs.getInt("cnt");
+			}
+			if(count > 0) {
+				conn.rollback();
+				return false;
+			}
 			
 			//포인트 적립
-			addPoint(pointVo);
+			//addPoint(pointVo);
+			String sql2 = "insert into tbl_point(point_num, mem_id, point_score, point_code) VALUES(seq_point_num.nextval, ?, ?, ?)";
+			pstmt2 = conn.prepareStatement(sql2);
+			pstmt2.setString(1, pointVo.getMem_id());
+			pstmt2.setInt(2, pointVo.getPoint_score());
+			pstmt2.setString(3, pointVo.getPoint_code());
+			pstmt2.executeUpdate();
 			
 			//구매테이블 추가
-			String  sql = 	"INSERT ALL ";
+			String  sql3 = 	"INSERT ALL ";
 				for(int i=0;i<buyList.size();i++) {
-					sql += "   INTO tbl_buy (buy_info_num, book_num, book_amount, mem_id, mem_phone, mem_address)";
-					sql += "   VALUES (seq_buy_num.nextval, ?, ?, ?, ?, ?)";
+					sql3 += "   INTO tbl_buy (buy_info_num, book_num, book_amount, mem_id, mem_phone, mem_address, buy_all_price, buy_point)";
+					sql3 += "   VALUES (seq_buy_num.nextval, ?, ?, ?, ?, ?, ?, ?)";
 				}
-					sql += "   SELECT * FROM DUAL";
+					sql3 += "   SELECT * FROM DUAL";
 			int index = 0;
-			pstmt = conn.prepareStatement(sql);
+			pstmt3 = conn.prepareStatement(sql3);
 			for(int i=0;i<buyList.size();i++) {
 				BuyVo vo = buyList.get(i);
-				System.out.println("제 부모님은 어디 계시죠? "+buyList.size());
-				pstmt.setInt(++index, vo.getBook_num());
-				pstmt.setInt(++index, vo.getBook_amount());
-				pstmt.setString(++index, vo.getMem_id());
-				pstmt.setString(++index, vo.getMem_phone());
-				pstmt.setString(++index, vo.getMem_address());
+				pstmt3.setInt(++index, vo.getBook_num());
+				pstmt3.setInt(++index, vo.getBook_amount());
+				pstmt3.setString(++index, vo.getMem_id());
+				pstmt3.setString(++index, vo.getMem_phone());
+				pstmt3.setString(++index, vo.getMem_address());
+				pstmt3.setInt(++index, vo.getBuy_all_price());
+				pstmt3.setInt(++index, vo.getBuy_point());
 			}
-			int result = pstmt.executeUpdate();
+			pstmt3.executeUpdate();
+			
+			String sql4 = "delete tbl_cart where book_num = ? and mem_id = ?";
+			int indexDelete = 0;
+			int result = 0;
+			for(int i=0;i<buyList.size();i++) {
+				pstmt4 = conn.prepareStatement(sql4);
+				BuyVo vo = buyList.get(i);
+				pstmt4.setInt(++indexDelete, vo.getBook_num());
+				pstmt4.setString(++indexDelete, mem_id);
+				result = pstmt4.executeUpdate();
+				indexDelete = 0;
+			}
 			if(result > 0) {
 				conn.commit();
 				return true;
@@ -118,9 +167,37 @@ public class BuyDao {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			closeAll(conn, pstmt, null);
+			closeAll(null, pstmt4, null);
+			closeAll(null, pstmt3, null);
+			closeAll(null, pstmt2, null);
+			closeAll(null, pstmt5, rs);
+			closeAll(conn, pstmt1, null);
 		}
 		return false;
+	}
+	
+	public int getMyAllPoint(String mem_id) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = getConnection();
+			String sql = "select point_score from tbl_point where mem_id = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, mem_id);
+			rs = pstmt.executeQuery();
+			int point_score = 0;
+			while(rs.next()) {
+				point_score += rs.getInt("point_score");
+			}
+			return point_score;
+		} catch(Exception e) {
+			e.printStackTrace();
+		} finally {
+			closeAll(conn, pstmt, rs);
+		}
+		return 0;
 	}
 	
 	public List<BuyVo> getBuyList(String mem_id) {
@@ -174,7 +251,7 @@ public class BuyDao {
 		try {
 			conn = getConnection();
 			String sql = "select y.buy_info_num, y.buy_date, y.book_num, y.book_amount, "
-					+ "   y.mem_id, y.mem_phone, y.mem_address, b.book_name "
+					+ "   y.mem_id, y.mem_phone, y.mem_address, y.buy_all_price, y.buy_point, b.book_name "
 					+ "   from tbl_buy y, tbl_book b "
 					+ "   where y.book_num = b.book_num and mem_id = ? "
 					+ "   order by buy_info_num desc";
@@ -192,6 +269,8 @@ public class BuyDao {
 				//mem_id 잊지마...
 				String mem_phone = rs.getString("mem_phone");
 				String mem_address = rs.getString("mem_address");
+				int buy_all_price = rs.getInt("buy_all_price");
+				int buy_point = rs.getInt("buy_point");
 				String book_name = rs.getString("book_name");
 				
 				BuyVo vo = new BuyVo();
@@ -202,6 +281,8 @@ public class BuyDao {
 				vo.setMem_id(mem_id);
 				vo.setMem_phone(mem_phone);
 				vo.setMem_address(mem_address);
+				vo.setBuy_all_price(buy_all_price);
+				vo.setBuy_point(buy_point);
 				vo.setBook_name(book_name);
 				list.add(vo);
 			}

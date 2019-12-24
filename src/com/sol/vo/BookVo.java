@@ -1,6 +1,9 @@
 package com.sol.vo;
 
-public class BookVo {
+import java.io.Serializable;
+
+@SuppressWarnings("serial")
+public class BookVo implements Serializable{
 
 	private int book_num;
 	private String book_name;

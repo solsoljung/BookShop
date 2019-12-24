@@ -34,13 +34,14 @@ public class BuyProService implements IBoardService {
 		String mem_id = (String)session.getAttribute("mem_id");
 		
 		List<TempBuyVo> list = new ArrayList<TempBuyVo>();
-		
-		for(int i=0;i<arrBookNum.length;i++) {
-			TempBuyVo tempVo = new TempBuyVo();
-			tempVo.setBook_num(Integer.parseInt(arrBookNum[i]));
-			tempVo.setBook_amount(Integer.parseInt(arrBookAmount[i]));
-			tempVo.setMem_id(mem_id);
-			list.add(tempVo);
+		if(arrBookNum.length != 0) {
+			for(int i=0;i<arrBookNum.length;i++) {
+				TempBuyVo tempVo = new TempBuyVo();
+				tempVo.setBook_num(Integer.parseInt(arrBookNum[i]));
+				tempVo.setBook_amount(Integer.parseInt(arrBookAmount[i]));
+				tempVo.setMem_id(mem_id);
+				list.add(tempVo);
+			}
 		}
 		System.out.println("바이프로에서 보내는 리스트 길이~~: "+list.size());
 		

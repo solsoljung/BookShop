@@ -42,7 +42,6 @@ $(function(){
 <body>
 	<jsp:include page="header.jsp"></jsp:include>
 <br>
-<br>
 <!-- 검색 -->
 <div class="container-fluid">
 	<div class="row">
@@ -71,6 +70,7 @@ $(function(){
 <br>
 	<!-- 검색 끝 -->
 <!-- 여기부터 회전목마 -->
+<br>
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-1">
@@ -124,6 +124,30 @@ $(function(){
 		</div>
 		<div class="col-md-1">
 		</div>
+	</div>
+	<br>
+	<br>
+	<br>
+	<br>
+	<hr>
+	<br>
+	<div class="row">
+	<div class="col-md-2">
+	</div>
+	<div class="col-md-2">
+		<h2>베스트 셀러 »</h2>
+	</div>
+	<div class="col-md-2">
+		<img alt="" src="upload/1-1.jpg" width="200"/>
+	</div>
+	<div class="col-md-2">
+		<img alt="" src="upload/1-1.jpg" width="200"/>
+	</div>
+	<div class="col-md-2">
+		<img alt="" src="upload/1-1.jpg" width="200"/>
+	</div>
+	<div class="col-md-2">
+	</div>
 	</div>
 </div>
 <br>
