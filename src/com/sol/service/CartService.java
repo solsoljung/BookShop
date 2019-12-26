@@ -23,9 +23,18 @@ public class CartService implements IBoardService {
 		vo.setBook_amount(book_amount);
 		vo.setMem_id(mem_id);
 		
-		dao.addCart(vo);
+		boolean result = dao.addCart(vo);
+		String msg = "";
 		
-		return "redirect:cart_form.mem";
+		if(result == true) {
+			msg = "cart_add";
+		} else {
+			msg = "cart_fail";
+		}
+		
+		request.setAttribute("data", msg);
+		
+		return "/WEB-INF/views/data.jsp";
 	}
 
 }

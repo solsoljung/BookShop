@@ -70,7 +70,7 @@ $(function(){
 				</tr>
 				<tr>
 					<td>사진</td>
-					<td><input type="text" value="${vo.book_image}" name="book_image"></td>
+					<td><input type="file" value="${vo.book_image}" name="book_image"></td>
 				</tr>
 			</table>
 			<input type="submit" class="btn btn-success" value="수정완료">

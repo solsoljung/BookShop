@@ -45,7 +45,7 @@ public class CartDao {
 		if (conn != null) try { conn.close(); } catch (Exception e) { }
 	}
 	
-	public void addCart(CartVo vo) {
+	public boolean addCart(CartVo vo) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		PreparedStatement pstmt2 = null;
@@ -73,6 +73,7 @@ public class CartDao {
 				int insert = pstmt2.executeUpdate();
 				if(insert > 0) {
 					System.out.println("새롭게 장바구니를 만듦!");
+					return true;
 				}
 			} else {
 				String sql2 = "update tbl_cart set book_amount = book_amount + 1 where book_num = ? and mem_id = ?";
@@ -82,6 +83,7 @@ public class CartDao {
 				int update = pstmt2.executeUpdate();
 				if(update > 0) {
 					System.out.println("이미 있는 장바구니라 수량만 ++함!");
+					return true;
 				}
 			}
 		} catch(Exception e) {
@@ -90,6 +92,7 @@ public class CartDao {
 			closeAll(null, pstmt2, null);
 			closeAll(conn, pstmt, rs);
 		}
+		return false;
 	}
 	
 	public List<CartVo> getMyCartList(String mem_id) {

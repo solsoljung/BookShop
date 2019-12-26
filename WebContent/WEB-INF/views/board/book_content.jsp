@@ -26,9 +26,28 @@
 
 <script>
 $(function(){
-	$("#btnPutCart").click(function(){
+	$(".btnCartAjax").click(function(){
+// 		console.log($(this));
+		var that = $(this);
+		var v = $(this).data("num");
 		var book_amount = $("#inputAmount").val();
-		location.href = "cart.mem?book_num=${vo.book_num}&book_amount=" + book_amount;
+		console.log(v);	
+		var url = "cart.ajax";
+		
+		var sData = {
+				"book_num" : v,
+				"book_amount" : book_amount
+		};
+		$.post(url, sData, function(rData){
+			if (rData.trim() == "cart_add") {
+				var result = confirm('장바구니로 이동하시겠습니까?'); 
+				if(result) { 
+					location.replace('cart_form.mem'); 
+					} else {
+						//no 
+					}
+			}
+		});
 	});
 	$("#btnBuyNow").click(function(){
 		var book_amount = $("#inputAmount").val();
@@ -66,7 +85,7 @@ $(function(){
 			<br>
 			<c:choose>
 				 	<c:when test="${not empty mem_id}">
-<a id="btnPutCart" class="btn btn-lg active btn-link" type="button">장바구니</a>
+<a id="btnPutCart" class="btn btn-lg active btn-link btnCartAjax" type="button" data-num="${vo.book_num}">장바구니</a>
 <a id="btnBuyNow" class="btn btn-lg btn-link" type="button">바로 구매</a>
 					</c:when>
 					<c:otherwise>

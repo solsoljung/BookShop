@@ -125,62 +125,8 @@ $(function(){
 		<div class="col-md-1">
 		</div>
 	</div>
-	<br>
-	<br>
-	<br>
-	<br>
-	<hr>
-	<br>
-	<div class="row">
-	<div class="col-md-2">
-	</div>
-	<div class="col-md-2">
-		<h2>베스트 셀러 »</h2>
-	</div>
-	<div class="col-md-2">
-		<img alt="" src="upload/1-1.jpg" width="200"/>
-	</div>
-	<div class="col-md-2">
-		<img alt="" src="upload/1-1.jpg" width="200"/>
-	</div>
-	<div class="col-md-2">
-		<img alt="" src="upload/1-1.jpg" width="200"/>
-	</div>
-	<div class="col-md-2">
-	</div>
-	</div>
 </div>
 <br>
-<br>
-<br>
-<br>
-<!-- 여기까지가 회전목마 -->
-	<!-- <div class="row">
-		<div class="col-md-12">
-			<div class="tabbable" id="tabs-485082">
-				<ul class="nav nav-tabs">
-					<li class="nav-item">
-						<a class="nav-link active" href="#tab1" data-toggle="tab">Section 1</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#tab2" data-toggle="tab">Section 2</a>
-					</li>
-				</ul>
-				<div class="tab-content">
-					<div class="tab-pane active" id="panel-114609">
-						<p>
-							I'm in Section 1.
-						</p>
-					</div>
-					<div class="tab-pane" id="tab2">
-						<p>
-							Howdy, I'm in Section 2.
-						</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div> -->
 
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>

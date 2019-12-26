@@ -8,12 +8,7 @@
 
     <title>베스트 셀러</title>
 <style>
-.titleFont {
-  font-weight: bold;
-  color: 	#6495ED;
-  font-size: 64px;
 
-}
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <meta name="description" content="Source code generated using layoutit.com">
@@ -24,7 +19,31 @@
     <!-- Latest compiled and minified CSS -->
 
 <script>
+
 $(function(){
+	$(".btnCartAjax").click(function(){
+// 		console.log($(this));
+		var that = $(this);
+		var v = $(this).data("num");
+		console.log(v);	
+		var url = "cart.ajax";
+		
+		var sData = {
+				"book_num" : v,
+				"book_amount" : 1
+		};
+		$.post(url, sData, function(rData){
+			if (rData.trim() == "cart_add") {
+				var result = confirm('장바구니로 이동하시겠습니까?'); 
+				if(result) { 
+					location.replace('cart_form.mem'); 
+					} else {
+						//no 
+					}
+			}
+		});
+	});
+	
 	$(".myTaget").click(function(){
 		var v = $(this).data("num");
 		console.log(v);
@@ -35,8 +54,6 @@ $(function(){
 		} */
 		location.href = "best.sol?search_keyword=${search_keyword}&now_page=" + v;
 	});
-	var url = request.getHeader("REFERER");
-	console.log(url);
 });
 <%
 String url = request.getHeader("REFERER");
@@ -106,7 +123,7 @@ pageContext.setAttribute("result", result);
 			<hr>
 			<c:choose>
 				 	<c:when test="${not empty mem_id}">
-<a href="cart.mem?book_num=${bestVo.book_num}&book_amount=1" class="btn btn-lg btn-link" type="button">장바구니 담기</a>
+<a href="#" class="btn btn-lg btn-link btnCartAjax" type="button" data-num="${bestVo.book_num}">장바구니 담기</a>
 <a href="buy_pro.mem?checked=${bestVo.book_num}&arrayParam=1" class="btn btn-lg btn-link" type="button">바로 구매</a>
 					</c:when>
 					<c:otherwise>
